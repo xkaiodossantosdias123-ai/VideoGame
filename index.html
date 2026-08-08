@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlayStation 4 Web Console</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- FontAwesome para Ícones do Console -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+
   <div class="ps4-container">
     <!-- Barra Superior de Status -->
     <header class="top-bar">
       <div class="top-icons">
-        <div class="icon-item"><i class="fa-solid fa-bell"></i></div>
-        <div class="icon-item"><i class="fa-solid fa-user-group"></i></div>
-        <div class="icon-item"><i class="fa-solid fa-trophy"></i></div>
-        <div class="icon-item"><i class="fa-solid fa-gear"></i></div>
+        <div class="icon-item" title="Notificações"><i class="fa-solid fa-bell"></i></div>
+        <div class="icon-item" title="Amigos"><i class="fa-solid fa-user-group"></i></div>
+        <div class="icon-item" title="Troféus"><i class="fa-solid fa-trophy"></i></div>
+        <div class="icon-item" title="Configurações"><i class="fa-solid fa-gear"></i></div>
       </div>
       <div class="profile-info">
         <span id="clock">00:00</span>
@@ -27,37 +29,140 @@
 
     <!-- Carrossel Principal de Jogos -->
     <main class="carousel-wrapper">
-      <div class="carousel" id="carousel">
-        <div class="game-card active" data-url="games/flappy-sky/index.html">
+      <div class="carousel-track" id="carouselTrack">
+        
+        <!-- CARD 1: PLAYSTATION STORE -->
+        <div class="game-card active store-card" id="open-store-btn" data-type="store">
+          <div class="card-art ps-store-art">
+            <i class="fa-solid fa-bag-shopping"></i>
+          </div>
+          <div class="card-info">
+            <span class="card-title">PS Store</span>
+            <span class="card-subtitle">Loja Oficial</span>
+          </div>
+        </div>
+
+        <!-- CARD 2: FLAPPY SKY -->
+        <div class="game-card" data-type="game" data-url="games/flappy-sky/index.html">
           <div class="card-art sky">
             <i class="fa-solid fa-cloud-sun"></i>
           </div>
-          <div class="card-title">Flappy Sky</div>
+          <div class="card-info">
+            <span class="card-title">Flappy Sky</span>
+            <span class="card-subtitle">Jogo de Desvio</span>
+          </div>
         </div>
 
-        <div class="game-card" data-url="games/click-master/index.html">
+        <!-- CARD 3: CLICK MASTER -->
+        <div class="game-card" data-type="game" data-url="games/click-master/index.html">
           <div class="card-art clicker">
             <i class="fa-solid fa-hand-pointer"></i>
           </div>
-          <div class="card-title">Click Master</div>
+          <div class="card-info">
+            <span class="card-title">Click Master</span>
+            <span class="card-subtitle">Jogo Arcade</span>
+          </div>
         </div>
 
-        <div class="game-card" data-url="games/neon-runner/index.html">
+        <!-- CARD 4: NEON RUNNER -->
+        <div class="game-card" data-type="game" data-url="games/neon-runner/index.html">
           <div class="card-art runner">
             <i class="fa-solid fa-bolt"></i>
           </div>
-          <div class="card-title">Neon Runner</div>
+          <div class="card-info">
+            <span class="card-title">Neon Runner</span>
+            <span class="card-subtitle">Corrida Infinita</span>
+          </div>
         </div>
+
       </div>
     </main>
 
-    <!-- Rodapé com Botões de Ação -->
+    <!-- Rodapé com Comandos do Controle -->
     <footer class="action-bar">
-      <div class="prompt"><span class="btn-cross">X</span> Entrar</div>
-      <div class="prompt"><span class="btn-circle">O</span> Opções</div>
+      <div class="prompt"><span class="btn-cross">X</span> Iniciar / Selecionar</div>
+      <div class="prompt"><span class="btn-circle">O</span> Voltar</div>
+      <div class="prompt"><span class="btn-nav">← →</span> Navegar</div>
     </footer>
+  </div>
+
+  <!-- ==================== TELA DA PLAYSTATION STORE ==================== -->
+  <div class="store-overlay hidden" id="storeScreen">
+    <div class="store-modal">
+      
+      <!-- Cabeçalho da Store -->
+      <header class="store-header">
+        <div class="store-brand">
+          <i class="fa-brands fa-playstation"></i>
+          <span>PlayStation™Store</span>
+        </div>
+        <button class="close-store-btn" id="closeStoreBtn">
+          <span class="btn-circle-sm">O</span> Fechar
+        </button>
+      </header>
+
+      <div class="store-content">
+        <!-- Banner Principal de Destaque -->
+        <div class="store-hero">
+          <div class="hero-details">
+            <span class="badge-featured">EM DESTAQUE</span>
+            <h2>Cyber Runner 2077</h2>
+            <p>Acelere por pistas cobertas por luzes neon e mostre seus reflexos no modo de alta velocidade!</p>
+            <button class="btn-download-hero" onclick="installGame('Cyber Runner', 'games/neon-runner/index.html', 'fa-bolt', 'runner', 'Corrida Futurista')">
+              <i class="fa-solid fa-download"></i> Baixar Grátis
+            </button>
+          </div>
+        </div>
+
+        <!-- Seção de Jogos Populares -->
+        <section class="store-section">
+          <h3><i class="fa-solid fa-fire"></i> Catálogo de Jogos</h3>
+          <div class="store-grid">
+            
+            <div class="store-item">
+              <div class="store-thumb sky"><i class="fa-solid fa-cloud-sun"></i></div>
+              <div class="store-item-body">
+                <h4>Flappy Sky</h4>
+                <p>Desvie dos obstáculos no céu!</p>
+                <div class="store-item-footer">
+                  <span class="price-free">Gratuito</span>
+                  <button class="btn-install" onclick="installGame('Flappy Sky', 'games/flappy-sky/index.html', 'fa-cloud-sun', 'sky', 'Jogo de Desvio')">Adicionar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="store-item">
+              <div class="store-thumb clicker"><i class="fa-solid fa-hand-pointer"></i></div>
+              <div class="store-item-body">
+                <h4>Click Master</h4>
+                <p>Clique o mais rápido possível.</p>
+                <div class="store-item-footer">
+                  <span class="price-free">Gratuito</span>
+                  <button class="btn-install" onclick="installGame('Click Master', 'games/click-master/index.html', 'fa-hand-pointer', 'clicker', 'Jogo Arcade')">Adicionar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="store-item">
+              <div class="store-thumb space"><i class="fa-solid fa-rocket"></i></div>
+              <div class="store-item-body">
+                <h4>Space Shooter</h4>
+                <p>Batalha espacial de sobrevivência.</p>
+                <div class="store-item-footer">
+                  <span class="price">R$ 19,90</span>
+                  <button class="btn-install disabled" disabled>Em Breve</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+
+    </div>
   </div>
 
   <script src="app.js"></script>
 </body>
-</html>
+  </html>
+  
