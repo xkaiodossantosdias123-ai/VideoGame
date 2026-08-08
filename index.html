@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GamePoint Console</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="boot" class="boot"><div class="logo">GAME<span>POINT</span></div><div class="bar"><i></i></div><p>Iniciando sistema...</p></div>
+
+<div id="login" class="login hidden">
+  <div class="logo">GAME<span>POINT</span></div>
+  <div class="login-card">
+    <h1>Quem está usando este controle?</h1>
+    <div id="profiles" class="profiles"></div>
+    <button id="newProfile" class="btn">＋ Novo usuário</button>
+    <button id="guest" class="btn ghost">Jogar como convidado</button>
+  </div>
+</div>
+
+<main id="console" class="hidden">
+<header>
+  <div class="mini">GAMEPOINT</div>
+  <div class="controller">🎮 <span id="pad">Controle não conectado</span></div>
+  <div id="user">Convidado</div>
+</header>
+
+<nav id="nav">
+  <button class="active" data-page="home">Início</button>
+  <button data-page="store">Loja</button>
+  <button data-page="library">Biblioteca</button>
+  <button data-page="downloads">Downloads</button>
+  <button data-page="settings">Configurações</button>
+</nav>
+
+<section id="home" class="page">
+  <div class="hero">
+    <div>
+      <small>GAMEPOINT ORIGINAL</small>
+      <h1>Seu console. Seus jogos.</h1>
+      <p>Baixe jogos gratuitos e abra sua biblioteca diretamente pelo navegador.</p>
+      <button class="btn" onclick="showPage('store')">Abrir Loja</button>
+    </div>
+  </div>
+  <h2>Jogos em destaque</h2>
+  <div id="featured" class="grid"></div>
+</section>
+
+<section id="store" class="page hidden">
+  <div class="title-row"><div><h1>Loja</h1><p>Jogos gratuitos e demos.</p></div><input id="search" placeholder="Pesquisar"></div>
+  <div id="storeGrid" class="grid"></div>
+</section>
+
+<section id="library" class="page hidden">
+  <h1>Biblioteca</h1><p>Seus jogos instalados neste navegador.</p>
+  <div id="libraryGrid" class="grid"></div>
+</section>
+
+<section id="downloads" class="page hidden">
+  <h1>Downloads</h1>
+  <div class="download-card">
+    <h2>Como funciona</h2>
+    <p>Use <b>Baixar</b> na Loja para salvar o arquivo HTML do jogo no dispositivo. Use <b>Jogar</b> para abrir o jogo no navegador.</p>
+    <p>Os jogos desta demonstração são HTML5 e não precisam de servidor de jogo.</p>
+  </div>
+  <div id="downloadList"></div>
+</section>
+
+<section id="settings" class="page hidden">
+  <h1>Configurações</h1>
+  <div class="settings">
+    <label><input type="checkbox" id="requirePad" checked> Exigir controle para iniciar jogos</label>
+    <label><input type="checkbox" id="sound" checked> Sons da interface</label>
+    <button class="btn ghost" id="logout">Sair do usuário</button>
+  </div>
+</section>
+</main>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
