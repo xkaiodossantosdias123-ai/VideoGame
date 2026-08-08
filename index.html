@@ -9,21 +9,32 @@
 </head>
 <body>
 
+  <!-- ================= POPUP DE NOTIFICAÇÃO DE TROFÉU PS4 ================= -->
+  <div class="trophy-popup hidden" id="trophyPopup">
+    <div class="popup-icon"><i class="fa-solid fa-trophy"></i></div>
+    <div class="popup-info">
+      <span class="popup-tag">Troféu Desbloqueado!</span>
+      <h4 id="popupTrophyTitle">Nome do Troféu</h4>
+      <p id="popupTrophyDesc">Descrição do troféu conquistado.</p>
+    </div>
+  </div>
+
   <!-- ================= TELA DO DASHBOARD PS4 ================= -->
   <div class="ps4-screen" id="ps4Dashboard">
     
-    <!-- Barra Superior -->
+    <!-- Barra Superior de Navegação -->
     <header class="system-bar">
       <div class="sys-icons">
         <div class="sys-item" id="btn-store"><i class="fa-solid fa-bag-shopping"></i><span>Store</span></div>
+        <div class="sys-item" id="btn-friends"><i class="fa-solid fa-user-group"></i><span>Amigos</span></div>
+        <div class="sys-item" id="btn-party"><i class="fa-solid fa-headset"></i><span>Party / Call</span></div>
         <div class="sys-item" id="btn-trophies"><i class="fa-solid fa-trophy"></i><span>Troféus</span></div>
-        <div class="sys-item" id="btn-settings"><i class="fa-solid fa-gear"></i><span>Ajustes</span></div>
       </div>
 
       <div class="sys-profile" id="btn-login">
         <span id="clock">00:00</span>
         <div class="user-avatar" id="current-avatar"><i class="fa-solid fa-user"></i></div>
-        <span class="user-name" id="current-username">Fazer Login</span>
+        <span class="user-name" id="current-username">Criar Conta / Login</span>
       </div>
     </header>
 
@@ -37,19 +48,31 @@
           <div class="tile-label">PS Store</div>
         </div>
 
-        <!-- FLAPPY SKY -->
+        <!-- AMIGOS -->
+        <div class="ps4-tile" data-type="modal" data-target="modal-friends">
+          <div class="tile-art friends-bg"><i class="fa-solid fa-user-group"></i></div>
+          <div class="tile-label">Amigos & Chat</div>
+        </div>
+
+        <!-- PARTY CALL -->
+        <div class="ps4-tile" data-type="modal" data-target="modal-party">
+          <div class="tile-art party-bg"><i class="fa-solid fa-headset"></i></div>
+          <div class="tile-label">Party Call</div>
+        </div>
+
+        <!-- JOGO 1: FLAPPY SKY -->
         <div class="ps4-tile" data-type="game" data-title="Flappy Sky" data-url="./games/flappy-sky/index.html">
           <div class="tile-art sky-bg"><i class="fa-solid fa-cloud-sun"></i></div>
           <div class="tile-label">Flappy Sky</div>
         </div>
 
-        <!-- CLICK MASTER -->
+        <!-- JOGO 2: CLICK MASTER -->
         <div class="ps4-tile" data-type="game" data-title="Click Master" data-url="./games/click-master/index.html">
           <div class="tile-art clicker-bg"><i class="fa-solid fa-hand-pointer"></i></div>
           <div class="tile-label">Click Master</div>
         </div>
 
-        <!-- NEON RUNNER -->
+        <!-- JOGO 3: NEON RUNNER -->
         <div class="ps4-tile" data-type="game" data-title="Neon Runner" data-url="./games/neon-runner/index.html">
           <div class="tile-art runner-bg"><i class="fa-solid fa-bolt"></i></div>
           <div class="tile-label">Neon Runner</div>
@@ -64,62 +87,116 @@
       </div>
     </main>
 
-    <!-- Detalhes do Jogo Selecionado -->
+    <!-- Detalhes do Item Selecionado -->
     <div class="game-details">
       <h1 id="selected-title">PS Store</h1>
       <p id="selected-desc">Navegue pela loja para ver novos jogos e novidades.</p>
     </div>
 
-    <!-- Barra de Ajuda/Controles -->
+    <!-- Barra de Ajuda -->
     <footer class="controls-bar">
-      <div class="btn-prompt"><span class="btn-x">X</span> Iniciar Jogo</div>
+      <div class="btn-prompt"><span class="btn-x">X</span> Entrar</div>
       <div class="btn-prompt"><span class="btn-o">O</span> Voltar</div>
-      <div class="btn-prompt"><span class="btn-dpad">← →</span> Navegar</div>
+      <div class="btn-prompt"><span class="btn-dpad">← →</span> Mover</div>
     </footer>
   </div>
 
-  <!-- ================= PLAYER DO JOGO (RODA O HTML) ================= -->
+  <!-- ================= TELA DO JOGO (IFRAME) ================= -->
   <div class="game-player-overlay hidden" id="gamePlayer">
-    
-    <!-- Botão Flutuante de PAUSE no canto superior direito -->
     <button class="floating-pause-btn" id="btnPauseGame" onclick="togglePauseMenu()">
       <i class="fa-solid fa-pause"></i> PAUSE
     </button>
 
-    <!-- Tela do Jogo -->
     <iframe id="gameIframe" src="" frameborder="0"></iframe>
 
-    <!-- MENU DE PAUSE SOBREPOSTO AO JOGO -->
     <div class="pause-menu-overlay hidden" id="pauseMenu">
       <div class="pause-card">
         <h2 id="pause-game-title"><i class="fa-solid fa-circle-pause"></i> Jogo Pausado</h2>
         <div class="pause-options">
-          <button class="pause-btn primary" onclick="togglePauseMenu()">
-            <i class="fa-solid fa-play"></i> Continuar Jogo
-          </button>
-          <button class="pause-btn" onclick="restartGame()">
-            <i class="fa-solid fa-rotate-right"></i> Reiniciar
-          </button>
-          <button class="pause-btn danger" onclick="exitToDashboard()">
-            <i class="fa-solid fa-house"></i> Sair para o Menu PS4
+          <button class="pause-btn primary" onclick="togglePauseMenu()"><i class="fa-solid fa-play"></i> Continuar</button>
+          <button class="pause-btn" onclick="restartGame()"><i class="fa-solid fa-rotate-right"></i> Reiniciar</button>
+          <button class="pause-btn danger" onclick="exitToDashboard()"><i class="fa-solid fa-house"></i> Sair do Jogo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL AMIGOS & CHAT ================= -->
+  <div class="modal-overlay hidden" id="modal-friends">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-user-group" style="color:#00d2ff;"></i> PSN Amigos & Mensagens</h2>
+        <button class="close-btn" onclick="closeModal('modal-friends')">X</button>
+      </div>
+      
+      <div class="friends-layout">
+        <!-- Esquerda: Lista de Amigos -->
+        <div class="friends-sidebar">
+          <div class="add-friend-box">
+            <input type="text" id="friendInput" placeholder="Adicionar ID PSN...">
+            <button onclick="addFriend()"><i class="fa-solid fa-user-plus"></i></button>
+          </div>
+          <div class="friends-list" id="friendsList">
+            <!-- Injetado via JS -->
+          </div>
+        </div>
+
+        <!-- Direita: Chat em Tempo Real -->
+        <div class="chat-area">
+          <div class="chat-header" id="chatHeader">
+            <span>Selecione um amigo para conversar</span>
+          </div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="system-msg">Escolha um amigo da lista à esquerda para mandar mensagem.</div>
+          </div>
+          <div class="chat-input-box">
+            <input type="text" id="messageInput" placeholder="Digite uma mensagem..." disabled>
+            <button id="sendMessageBtn" onclick="sendMessage()" disabled><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL CALL DE VOZ (PARTY) ================= -->
+  <div class="modal-overlay hidden" id="modal-party">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-headset" style="color:#ff007f;"></i> Grupo PSN (Party Call)</h2>
+        <button class="close-btn" onclick="closeModal('modal-party')">X</button>
+      </div>
+      
+      <div class="party-container">
+        <div class="party-status">
+          <span class="status-badge live">● EM CALL</span>
+          <p>Conectado ao Servidor de Voz PSN</p>
+        </div>
+
+        <div class="party-members" id="partyMembers">
+          <!-- Injetado via JS -->
+        </div>
+
+        <div class="party-controls">
+          <button class="party-btn mic-btn" id="toggleMicBtn" onclick="toggleMicrophone()">
+            <i class="fa-solid fa-microphone"></i> <span id="micStatusText">Ativar Microfone</span>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ================= MODAL DE TROFÉUS ================= -->
+  <!-- ================= MODAL TROFÉUS ================= -->
   <div class="modal-overlay hidden" id="modal-trophies">
     <div class="modal-card">
       <div class="modal-header">
-        <h2><i class="fa-solid fa-trophy" style="color:#ffbd00;"></i> Troféus do Jogador</h2>
+        <h2><i class="fa-solid fa-trophy" style="color:#ffbd00;"></i> Minhas Conquistas</h2>
         <button class="close-btn" onclick="closeModal('modal-trophies')">X</button>
       </div>
       <div class="trophy-list" id="trophyContainer"></div>
     </div>
   </div>
 
-  <!-- ================= MODAL DE LOGIN ================= -->
+  <!-- ================= MODAL LOGIN ================= -->
   <div class="modal-overlay hidden" id="modal-login">
     <div class="modal-card small">
       <div class="modal-header">
@@ -127,10 +204,10 @@
         <button class="close-btn" onclick="closeModal('modal-login')">X</button>
       </div>
       <form class="login-form" id="loginForm">
-        <label>Seu Nome / ID PSN:</label>
+        <label>Nome / ID da PSN:</label>
         <input type="text" id="usernameInput" placeholder="Ex: GamerPro99" required maxlength="15">
         
-        <label>Escolha seu Avatar:</label>
+        <label>Escolha o Avatar:</label>
         <div class="avatar-select">
           <div class="avatar-option active" data-icon="fa-user"><i class="fa-solid fa-user"></i></div>
           <div class="avatar-option" data-icon="fa-ghost"><i class="fa-solid fa-ghost"></i></div>
@@ -138,7 +215,7 @@
           <div class="avatar-option" data-icon="fa-dragon"><i class="fa-solid fa-dragon"></i></div>
         </div>
 
-        <button type="submit" class="submit-btn">Salvar Perfil</button>
+        <button type="submit" class="submit-btn">Salvar Conta</button>
       </form>
     </div>
   </div>
@@ -175,4 +252,5 @@
 
   <script src="app.js"></script>
 </body>
-</html>
+          </html>
+          
