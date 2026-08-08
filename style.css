@@ -2,272 +2,179 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Segoe UI', system-ui, sans-serif;
   user-select: none;
 }
 
 body {
-  background: radial-gradient(circle at center, #00439c 0%, #08214d 60%, #020b1a 100%);
+  background: radial-gradient(circle at center, #0a2e66 0%, #041430 60%, #020814 100%);
   height: 100vh;
   width: 100vw;
   overflow: hidden;
   color: #ffffff;
 }
 
-.ps4-container {
+/* DASHBOARD */
+.ps4-screen {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  padding: 40px 60px;
+  padding: 25px 45px;
 }
 
-/* ==================== BARRA SUPERIOR ==================== */
-.top-bar {
+.system-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.2rem;
-  color: #a2c4f5;
-  z-index: 10;
+  color: #8daedc;
 }
 
-.top-icons {
+.sys-icons {
   display: flex;
-  gap: 30px;
+  gap: 25px;
 }
 
-.top-icons .icon-item {
+.sys-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   cursor: pointer;
-  transition: transform 0.2s, color 0.2s;
+  transition: color 0.2s, transform 0.2s;
 }
 
-.top-icons .icon-item:hover {
-  color: #ffffff;
-  transform: scale(1.15);
+.sys-item span {
+  font-size: 0.65rem;
+  text-transform: uppercase;
 }
 
-.profile-info {
+.sys-item:hover {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.sys-profile {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-weight: 600;
+  gap: 12px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 6px 14px;
+  border-radius: 20px;
 }
 
-.avatar-box {
-  width: 42px;
-  height: 42px;
+.user-avatar {
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: #0070d1;
   display: flex;
-  justify-content: center;
   align-items: center;
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 10px rgba(0, 112, 209, 0.5);
+  justify-content: center;
+  border: 1.5px solid #fff;
 }
 
-/* ==================== CARROSSEL PRINCIPAL ==================== */
-.carousel-wrapper {
+.user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* CARROSSEL COMPACTO */
+.main-carousel {
   position: relative;
   width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 50px 0;
-  overflow: visible;
+  padding: 20px 0;
 }
 
 .carousel-track {
   display: flex;
-  gap: 35px;
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  gap: 20px;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.game-card {
-  min-width: 200px;
-  width: 200px;
-  height: 200px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+.ps4-tile {
+  min-width: 110px;
+  width: 110px;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 3px solid transparent;
-  backdrop-filter: blur(8px);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid transparent;
   position: relative;
 }
 
-.card-art {
-  font-size: 4rem;
-  margin-bottom: 10px;
-  transition: transform 0.3s;
-}
-
-.card-info {
+.tile-art {
+  font-size: 2.5rem;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+  border-radius: 10px;
 }
 
-.card-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-.card-subtitle {
-  font-size: 0.75rem;
-  color: #a2c4f5;
+.tile-label {
+  position: absolute;
+  bottom: -28px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s;
 }
 
-/* Cores dos Ícones */
-.sky { color: #38ef7d; }
-.clicker { color: #ff007f; }
-.runner { color: #00d2ff; }
-.space { color: #ffbd00; }
-.ps-store-art { color: #ffbd00; }
+.store-bg { color: #ffbd00; }
+.sky-bg { color: #38ef7d; }
+.clicker-bg { color: #ff007f; }
+.runner-bg { color: #00d2ff; }
+.trophy-bg { color: #ffbd00; }
 
-.store-card {
-  background: linear-gradient(135deg, #0056a3 0%, #001e4d 100%);
-  border-color: rgba(0, 112, 209, 0.4);
-}
-
-/* Estado Ativo (Foco PS4) */
-.game-card.active {
-  transform: scale(1.28);
+.ps4-tile.active {
+  transform: scale(1.22);
   border-color: #ffffff;
   background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 35px rgba(0, 112, 209, 0.9);
-  z-index: 5;
+  box-shadow: 0 0 20px rgba(0, 112, 209, 0.8);
+  z-index: 10;
 }
 
-.game-card.active .card-subtitle {
+.ps4-tile.active .tile-label {
   opacity: 1;
 }
 
-/* ==================== RODAPÉ DE AÇÕES ==================== */
-.action-bar {
-  display: flex;
-  gap: 35px;
-  font-size: 0.95rem;
-  color: #d1e2ff;
+.game-details {
+  height: 80px;
 }
 
-.prompt {
+.game-details h1 { font-size: 1.8rem; }
+.game-details p { color: #8daedc; font-size: 0.9rem; }
+
+.controls-bar {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 500;
+  gap: 25px;
+  font-size: 0.85rem;
+  color: #a0c0f0;
 }
 
-.btn-cross {
+.btn-prompt { display: flex; align-items: center; gap: 8px; }
+.btn-x {
   background: #0070d1;
-  color: white;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 0.85rem;
-  box-shadow: 0 0 8px rgba(0, 112, 209, 0.6);
-}
-
-.btn-circle {
-  border: 2px solid #ff4757;
-  color: #ff4757;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 0.85rem;
-}
-
-.btn-nav {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-}
-
-/* ==================== PLAYSTATION STORE MODAL ==================== */
-.store-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(2, 11, 26, 0.94);
-  backdrop-filter: blur(12px);
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.store-overlay.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.store-modal {
-  width: 90%;
-  max-width: 1100px;
-  height: 85vh;
-  background: rgba(12, 30, 62, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-}
-
-.store-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 15px;
-}
-
-.store-brand {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #0070d1;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.close-store-btn {
-  background: transparent;
-  border: none;
   color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: color 0.2s;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.75rem;
 }
-
-.close-store-btn:hover {
-  color: #ff4757;
-}
-
-.btn-circle-sm {
+.btn-o {
   border: 2px solid #ff4757;
   color: #ff4757;
   width: 22px;
@@ -276,164 +183,228 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
   font-size: 0.75rem;
-  font-weight: bold;
 }
-
-.store-content {
-  overflow-y: auto;
-  padding-right: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-/* Custom Scrollbar da Store */
-.store-content::-webkit-scrollbar {
-  width: 8px;
-}
-.store-content::-webkit-scrollbar-thumb {
-  background: rgba(0, 112, 209, 0.6);
+.btn-dpad {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 6px;
   border-radius: 4px;
 }
 
-/* Banner Hero */
-.store-hero {
-  background: linear-gradient(90deg, rgba(3, 16, 38, 0.95) 0%, rgba(3, 16, 38, 0.3) 100%),
-              url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80') center/cover;
-  border-radius: 16px;
-  padding: 40px;
-  min-height: 220px;
-  display: flex;
-  align-items: center;
+/* PLAYER DO JOGO & SISTEMA DE PAUSE */
+.game-player-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 999;
 }
 
-.hero-details h2 {
-  font-size: 2.2rem;
-  margin: 8px 0;
-}
-
-.hero-details p {
-  color: #a2c4f5;
-  max-width: 500px;
-  margin-bottom: 20px;
-  font-size: 0.95rem;
-}
-
-.badge-featured {
-  background: #ffbd00;
-  color: #000;
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 4px;
-}
-
-.btn-download-hero {
-  background: #0070d1;
-  color: #fff;
+#gameIframe {
+  width: 100vw;
+  height: 100vh;
   border: none;
-  padding: 12px 28px;
-  font-size: 1rem;
+}
+
+/* BOTÃO FLUTUANTE DE PAUSE */
+.floating-pause-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  z-index: 1001;
+  background: rgba(4, 20, 48, 0.85);
+  color: #ffffff;
+  border: 2px solid rgba(0, 112, 209, 0.8);
+  padding: 8px 18px;
+  border-radius: 20px;
   font-weight: bold;
-  border-radius: 8px;
+  font-size: 0.9rem;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
   transition: transform 0.2s, background 0.2s;
 }
 
-.btn-download-hero:hover {
-  background: #0056a3;
+.floating-pause-btn:hover {
+  background: #0070d1;
   transform: scale(1.05);
 }
 
-/* Grid de Jogos na Loja */
-.store-section h3 {
-  color: #a2c4f5;
-  margin-bottom: 15px;
+/* MENU DE PAUSE */
+.pause-menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 8, 20, 0.88);
+  backdrop-filter: blur(10px);
+  z-index: 1002;
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
 }
 
-.store-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 20px;
+.pause-card {
+  background: rgba(7, 30, 66, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 35px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.9);
 }
 
-.store-item {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: transform 0.2s, border-color 0.2s, background 0.2s;
-}
-
-.store-item:hover {
-  transform: translateY(-5px);
-  border-color: #0070d1;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.store-thumb {
-  height: 120px;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.3);
+.pause-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  gap: 10px;
 }
 
-.store-item-body h4 {
-  font-size: 1.1rem;
-}
-
-.store-item-body p {
-  font-size: 0.8rem;
-  color: #a2c4f5;
-  margin: 4px 0 12px 0;
-}
-
-.store-item-footer {
+.pause-options {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.price-free {
-  color: #38ef7d;
-  font-weight: bold;
-}
-
-.price {
-  color: #ffbd00;
-  font-weight: bold;
-}
-
-.btn-install {
-  background: #0070d1;
+.pause-btn {
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  border: none;
-  padding: 6px 16px;
-  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s;
 }
 
-.btn-install:hover:not(.disabled) {
+.pause-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.pause-btn.primary {
+  background: #0070d1;
+  border-color: #0070d1;
+}
+
+.pause-btn.primary:hover {
   background: #0056a3;
 }
 
-.btn-install.disabled {
-  background: rgba(255, 255, 255, 0.1);
-  color: #888;
-  cursor: not-allowed;
-  }
+.pause-btn.danger {
+  background: rgba(255, 71, 87, 0.2);
+  border-color: #ff4757;
+  color: #ff4757;
+}
+
+.pause-btn.danger:hover {
+  background: #ff4757;
+  color: #fff;
+}
+
+/* MODAIS GERAIS */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(2, 8, 20, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-card {
+  width: 80%;
+  max-width: 700px;
+  max-height: 80vh;
+  background: #071e42;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+.modal-card.small { max-width: 400px; }
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 10px;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #ff4757;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hidden { display: none !important; }
+
+/* LOGIN & STORE MODAL */
+.login-form { display: flex; flex-direction: column; gap: 15px; }
+.login-form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+}
+.avatar-select { display: flex; gap: 12px; }
+.avatar-option {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border: 2px solid transparent;
+}
+.avatar-option.active { border-color: #0070d1; background: #0070d1; }
+.submit-btn {
+  background: #0070d1; color: white; border: none; padding: 12px;
+  border-radius: 6px; font-weight: bold; cursor: pointer;
+}
+
+.trophy-item {
+  display: flex; align-items: center; gap: 15px;
+  background: rgba(255,255,255,0.05); padding: 12px;
+  border-radius: 10px; margin-bottom: 10px;
+}
+.trophy-icon { font-size: 1.8rem; }
+.trophy-icon.bronze { color: #cd7f32; }
+.trophy-icon.silver { color: #c0c0c0; }
+.trophy-icon.gold { color: #ffd700; }
+
+.store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+.store-card-item {
+  background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;
+  text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center;
+}
+.store-card-item i { font-size: 2.5rem; }
+.store-card-item button {
+  background: #0070d1; color: white; border: none; padding: 8px 12px;
+  border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%;
+                   }
