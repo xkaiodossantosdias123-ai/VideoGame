@@ -1,261 +1,940 @@
-// Descrições
-const gameDescriptions = {
-  'PS Store': 'Navegue pela loja oficial para encontrar novos jogos.',
-  'Amigos & Chat': 'Envie mensagens e adicione amigos da PSN.',
-  'Party Call': 'Entre em salas de voz com microfone em tempo real.',
-  'Flappy Sky': 'Desvie de obstáculos no céu e ganhe troféus!',
-  'Click Master': 'Teste a velocidade do seu clique!',
-  'Neon Runner': 'Corrida infinita estilo cyberpunk.',
-  'Troféus': 'Veja todas as conquistas salvas da sua conta.'
-};
+let highestZ = 20;
 
-// Banco de Dados Inicial
-let friends = JSON.parse(localStorage.getItem('ps4_friends')) || [
-  { id: 'Kratos_BR', status: 'online', messages: [{ sender: 'them', text: 'Bora jogar uma partida hoje?' }] },
-  { id: 'GamerGirl99', status: 'online', messages: [] },
-  { id: 'Pro_Player_PS4', status: 'offline', messages: [] }
-];
+/* =========================
+   JANELAS
+========================= */
 
-let trophies = JSON.parse(localStorage.getItem('ps4_trophies')) || [
-  { id: 1, title: 'Início da Jornada', game: 'Console PS4', desc: 'Criou sua conta na PSN.', type: 'gold', unlocked: true },
-  { id: 2, title: 'Piloto Celestial', game: 'Flappy Sky', desc: 'Pontuou 10 vezes no Flappy Sky.', type: 'bronze', unlocked: false }
-];
+function openWindow(id) {
 
-let tiles = document.querySelectorAll('.ps4-tile');
-let currentIndex = 0;
-let activeChatFriend = null;
-let isMicOn = false;
-let micStream = null;
+  const win = document.getElementById(id);
 
-// Relógio
-function updateClock() {
-  const now = new Date();
-  document.getElementById('clock').textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  if (!win) return;
+
+  win.classList.remove("hidden");
+
+  highestZ++;
+
+  win.style.zIndex = highestZ;
+
+  updateIndicator();
+
 }
+
+
+function closeWindow(id) {
+
+  const win = document.getElementById(id);
+
+  if (!win) return;
+
+  win.classList.add("hidden");
+
+  updateIndicator();
+
+}
+
+
+/* =========================
+   TRAZER JANELA PARA FRENTE
+========================= */
+
+document.addEventListener("mousedown", function (event) {
+
+  const win = event.target.closest(".window");
+
+  if (!win) return;
+
+  highestZ++;
+
+  win.style.zIndex = highestZ;
+
+});
+
+
+/* =========================
+   INDICADOR DA BARRA
+========================= */
+
+function updateIndicator() {
+
+  const openWindows = [
+    ...document.querySelectorAll(".window")
+  ].filter(
+    win => !win.classList.contains("hidden")
+  );
+
+  const indicator =
+    document.getElementById("appIndicator");
+
+  if (!indicator) return;
+
+  if (openWindows.length === 0) {
+
+    indicator.textContent =
+      "Nenhum app aberto";
+
+    return;
+
+  }
+
+  indicator.textContent =
+    openWindows
+      .map(win => {
+
+        const title =
+          win.querySelector(".win-title");
+
+        return title
+          ? title.innerText.trim()
+          : "Aplicativo";
+
+      })
+      .join(" • ");
+
+}
+
+
+/* =========================
+   MENU INICIAR
+========================= */
+
+function toggleStart() {
+
+  const menu =
+    document.getElementById("startMenu");
+
+  if (!menu) return;
+
+  menu.classList.toggle("show");
+
+}
+
+
+/* Fechar menu clicando fora */
+
+document.addEventListener("click", function (event) {
+
+  const menu =
+    document.getElementById("startMenu");
+
+  const button =
+    document.querySelector(".start-btn");
+
+  if (!menu || !button) return;
+
+  if (
+    menu.classList.contains("show") &&
+    !menu.contains(event.target) &&
+    !button.contains(event.target)
+  ) {
+
+    menu.classList.remove("show");
+
+  }
+
+});
+
+
+/* =========================
+   RELÓGIO
+========================= */
+
+function updateClock() {
+
+  const clock =
+    document.getElementById("clock");
+
+  if (!clock) return;
+
+  const now = new Date();
+
+  const hours =
+    String(now.getHours()).padStart(2, "0");
+
+  const minutes =
+    String(now.getMinutes()).padStart(2, "0");
+
+  clock.textContent =
+    `${hours}:${minutes}`;
+
+}
+
 setInterval(updateClock, 1000);
+
 updateClock();
 
-// Atualiza Carrossel
-function updateSelection() {
-  tiles.forEach((tile, index) => {
-    if (index === currentIndex) {
-      tile.classList.add('active');
-      const title = tile.dataset.title || tile.querySelector('.tile-label').innerText;
-      document.getElementById('selected-title').innerText = title;
-      document.getElementById('selected-desc').innerText = gameDescriptions[title] || 'Aproveite!';
-    } else {
-      tile.classList.remove('active');
-    }
+
+/* =========================
+   CHROME VIRTUAL
+========================= */
+
+function navigateChrome() {
+
+  const input =
+    document.getElementById("chrome-url");
+
+  const iframe =
+    document.getElementById("chrome-iframe");
+
+  if (!input || !iframe) return;
+
+  let url =
+    input.value.trim();
+
+  if (!url) return;
+
+
+  /*
+     Se o usuário escrever apenas
+     uma palavra, transforma em pesquisa.
+  */
+
+  if (
+    !url.startsWith("http://") &&
+    !url.startsWith("https://")
+  ) {
+
+    url =
+      "https://www.google.com/search?q=" +
+      encodeURIComponent(url);
+
+  }
+
+
+  iframe.src = url;
+
+}
+
+
+/* Enter no navegador */
+
+document.addEventListener("keydown", function (event) {
+
+  const input =
+    document.getElementById("chrome-url");
+
+  if (!input) return;
+
+  if (
+    document.activeElement === input &&
+    event.key === "Enter"
+  ) {
+
+    navigateChrome();
+
+  }
+
+});
+
+
+/* =========================
+   XODÓS
+========================= */
+
+function getXodos() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem("meusXodos") || "[]"
+    );
+
+  } catch {
+
+    return [];
+
+  }
+
+}
+
+
+function saveXodos(xodos) {
+
+  localStorage.setItem(
+    "meusXodos",
+    JSON.stringify(xodos)
+  );
+
+}
+
+
+function addXodo() {
+
+  const title =
+    document
+      .getElementById("xodo-title")
+      ?.value
+      .trim();
+
+  const emoji =
+    document
+      .getElementById("xodo-emoji")
+      ?.value
+      .trim() || "⭐";
+
+  const link =
+    document
+      .getElementById("xodo-link")
+      ?.value
+      .trim() || "";
+
+
+  if (!title) {
+
+    showToast(
+      "Digite o nome do Xodó."
+    );
+
+    return;
+
+  }
+
+
+  const xodos =
+    getXodos();
+
+
+  xodos.push({
+
+    id: Date.now(),
+
+    title: title,
+
+    emoji: emoji,
+
+    link: link
+
   });
 
-  const offset = -currentIndex * (110 + 20);
-  document.getElementById('carouselTrack').style.transform = `translateX(${offset}px)`;
+
+  saveXodos(xodos);
+
+
+  document.getElementById(
+    "xodo-title"
+  ).value = "";
+
+  document.getElementById(
+    "xodo-emoji"
+  ).value = "";
+
+  document.getElementById(
+    "xodo-link"
+  ).value = "";
+
+
+  loadXodos();
+
+  showToast(
+    "Xodó salvo com sucesso!"
+  );
+
 }
 
-// 🏆 SISTEMA DE DESBLOQUEIO DE TROFÉUS DA PSN (Chamado de dentro dos jogos ou do console)
-window.unlockTrophy = function(title, desc, type = 'bronze') {
-  // Salva troféu
-  trophies.push({ id: Date.now(), title, game: 'Jogo HTML', desc, type, unlocked: true });
-  localStorage.setItem('ps4_trophies', JSON.stringify(trophies));
 
-  // Exibe Popup PS4
-  const popup = document.getElementById('trophyPopup');
-  document.getElementById('popupTrophyTitle').innerText = title;
-  document.getElementById('popupTrophyDesc').innerText = desc;
-  
-  popup.classList.remove('hidden');
-  setTimeout(() => popup.classList.add('hidden'), 4000);
-};
+function loadXodos() {
 
-// Abrir / Fechar Jogos
-function launchGame(title, url) {
-  document.getElementById('pause-game-title').innerText = title;
-  document.getElementById('gameIframe').src = url;
-  document.getElementById('gamePlayer').classList.remove('hidden');
-  closeModal('modal-store');
-}
+  const container =
+    document.getElementById(
+      "xodoContainer"
+    );
 
-function togglePauseMenu() {
-  document.getElementById('pauseMenu').classList.toggle('hidden');
-}
+  if (!container) return;
 
-function restartGame() {
-  const iframe = document.getElementById('gameIframe');
-  iframe.src = iframe.src;
-  document.getElementById('pauseMenu').classList.add('hidden');
-}
 
-function exitToDashboard() {
-  document.getElementById('gameIframe').src = '';
-  document.getElementById('gamePlayer').classList.add('hidden');
-  document.getElementById('pauseMenu').classList.add('hidden');
-}
+  const xodos =
+    getXodos();
 
-// Controle por Teclado
-document.addEventListener('keydown', (e) => {
-  if (!document.getElementById('gamePlayer').classList.contains('hidden')) {
-    if (e.key === 'Escape' || e.key.toLowerCase() === 'p') togglePauseMenu();
+
+  container.innerHTML = "";
+
+
+  if (xodos.length === 0) {
+
+    container.innerHTML = `
+      <p style="
+        color:#8298ae;
+        padding:15px;
+      ">
+        Nenhum Xodó salvo ainda.
+      </p>
+    `;
+
     return;
+
   }
 
-  if (e.key === 'ArrowRight' && currentIndex < tiles.length - 1) {
-    currentIndex++; updateSelection();
-  } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
-    currentIndex--; updateSelection();
-  } else if (e.key === 'Enter') {
-    const activeTile = tiles[currentIndex];
-    if (activeTile.dataset.type === 'game') launchGame(activeTile.dataset.title, activeTile.dataset.url);
-    else openModal(activeTile.dataset.target);
-  }
-});
 
-tiles.forEach((tile, index) => {
-  tile.onclick = () => {
-    currentIndex = index; updateSelection();
-    if (tile.dataset.type === 'game') launchGame(tile.dataset.title, tile.dataset.url);
-    else openModal(tile.dataset.target);
-  };
-});
+  xodos.forEach(function (xodo, index) {
 
-// Modais
-function openModal(id) {
-  document.getElementById(id).classList.remove('hidden');
-  if (id === 'modal-friends') renderFriends();
-  if (id === 'modal-party') renderParty();
-  if (id === 'modal-trophies') renderTrophies();
-}
+    const card =
+      document.createElement("div");
 
-function closeModal(id) {
-  document.getElementById(id).classList.add('hidden');
-}
+    card.className =
+      "xodo-card";
 
-document.getElementById('btn-store').onclick = () => openModal('modal-store');
-document.getElementById('btn-friends').onclick = () => openModal('modal-friends');
-document.getElementById('btn-party').onclick = () => openModal('modal-party');
-document.getElementById('btn-trophies').onclick = () => openModal('modal-trophies');
-document.getElementById('btn-login').onclick = () => openModal('modal-login');
 
-// 👥 SISTEMA DE AMIGOS E CHAT DE MENSAGENS
-function renderFriends() {
-  const container = document.getElementById('friendsList');
-  container.innerHTML = friends.map(f => `
-    <div class="friend-item ${activeChatFriend === f.id ? 'active' : ''}" onclick="selectChatFriend('${f.id}')">
-      <div class="friend-status ${f.status}"></div>
-      <span>${f.id}</span>
-    </div>
-  `).join('');
-}
+    card.innerHTML = `
 
-function addFriend() {
-  const input = document.getElementById('friendInput');
-  if (!input.value.trim()) return;
-  friends.push({ id: input.value.trim(), status: 'online', messages: [] });
-  localStorage.setItem('ps4_friends', JSON.stringify(friends));
-  input.value = '';
-  renderFriends();
-}
-
-function selectChatFriend(id) {
-  activeChatFriend = id;
-  renderFriends();
-  
-  const friend = friends.find(f => f.id === id);
-  document.getElementById('chatHeader').innerText = `Conversando com: ${friend.id}`;
-  document.getElementById('messageInput').disabled = false;
-  document.getElementById('sendMessageBtn').disabled = false;
-
-  renderMessages();
-}
-
-function renderMessages() {
-  const friend = friends.find(f => f.id === activeChatFriend);
-  const container = document.getElementById('chatMessages');
-  container.innerHTML = friend.messages.map(m => `
-    <div class="msg-bubble ${m.sender === 'me' ? 'sent' : 'received'}">${m.text}</div>
-  `).join('');
-}
-
-function sendMessage() {
-  const input = document.getElementById('messageInput');
-  if (!input.value.trim() || !activeChatFriend) return;
-
-  const friend = friends.find(f => f.id === activeChatFriend);
-  friend.messages.push({ sender: 'me', text: input.value.trim() });
-  
-  // Resposta Automática Simulada
-  setTimeout(() => {
-    friend.messages.push({ sender: 'them', text: 'Show! Vamo jogar junto!' });
-    localStorage.setItem('ps4_friends', JSON.stringify(friends));
-    if (activeChatFriend === friend.id) renderMessages();
-  }, 1000);
-
-  localStorage.setItem('ps4_friends', JSON.stringify(friends));
-  input.value = '';
-  renderMessages();
-}
-
-// 🎧 SISTEMA DE CALL DE VOZ (PARTY)
-function renderParty() {
-  const user = JSON.parse(localStorage.getItem('ps4_user')) || { name: 'Você' };
-  const container = document.getElementById('partyMembers');
-  
-  container.innerHTML = `
-    <div class="party-member-card">
-      <div class="party-avatar ${isMicOn ? 'speaking' : ''}"><i class="fa-solid fa-user"></i></div>
-      <span>${user.name}</span>
-    </div>
-    <div class="party-member-card">
-      <div class="party-avatar speaking"><i class="fa-solid fa-ghost"></i></div>
-      <span>Kratos_BR</span>
-    </div>
-  `;
-}
-
-async function toggleMicrophone() {
-  const btnText = document.getElementById('micStatusText');
-  
-  if (!isMicOn) {
-    try {
-      micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      isMicOn = true;
-      btnText.innerText = 'Desativar Microfone';
-    } catch (err) {
-      alert('Permissão de microfone negada ou indisponível.');
-    }
-  } else {
-    if (micStream) micStream.getTracks().forEach(t => t.stop());
-    isMicOn = false;
-    btnText.innerText = 'Ativar Microfone';
-  }
-  renderParty();
-}
-
-// 🏆 RENDERIZAR TROFÉUS
-function renderTrophies() {
-  const container = document.getElementById('trophyContainer');
-  container.innerHTML = trophies.map(t => `
-    <div class="trophy-item" style="opacity: ${t.unlocked ? '1' : '0.4'}">
-      <i class="fa-solid fa-trophy trophy-icon ${t.type}"></i>
-      <div class="trophy-info">
-        <h4>${t.title} <small>(${t.game})</small></h4>
-        <p>${t.desc}</p>
+      <div class="emoji">
+        ${escapeHtml(xodo.emoji)}
       </div>
-    </div>
-  `).join('');
+
+      <h4>
+        ${escapeHtml(xodo.title)}
+      </h4>
+
+      <p>
+        ${escapeHtml(
+          xodo.link || "Sem anotação"
+        )}
+      </p>
+
+      <button
+        onclick="deleteXodo(${index})">
+
+        <i class="fa-solid fa-trash"></i>
+
+        Excluir
+
+      </button>
+
+    `;
+
+
+    /*
+       Se for um link válido,
+       permite abrir clicando no card.
+    */
+
+    if (
+      xodo.link &&
+      (
+        xodo.link.startsWith(
+          "https://"
+        ) ||
+        xodo.link.startsWith(
+          "http://"
+        )
+      )
+    ) {
+
+      card.style.cursor =
+        "pointer";
+
+
+      card.addEventListener(
+        "click",
+        function (event) {
+
+          if (
+            event.target.closest(
+              "button"
+            )
+          ) {
+
+            return;
+
+          }
+
+          window.open(
+            xodo.link,
+            "_blank"
+          );
+
+        }
+      );
+
+    }
+
+
+    container.appendChild(card);
+
+  });
+
 }
 
-// PERFIL
-const loginForm = document.getElementById('loginForm');
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const username = document.getElementById('usernameInput').value;
-  document.getElementById('current-username').innerText = username;
-  localStorage.setItem('ps4_user', JSON.stringify({ name: username }));
-  closeModal('modal-login');
-});
 
-const savedUser = JSON.parse(localStorage.getItem('ps4_user'));
-if (savedUser) document.getElementById('current-username').innerText = savedUser.name;
+function deleteXodo(index) {
 
-updateSelection();
-  
+  const xodos =
+    getXodos();
+
+
+  if (
+    !confirm(
+      "Excluir este Xodó?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  xodos.splice(index, 1);
+
+  saveXodos(xodos);
+
+  loadXodos();
+
+  showToast(
+    "Xodó excluído."
+  );
+
+}
+
+
+/* =========================
+   BLOCO DE NOTAS
+========================= */
+
+function loadNotes() {
+
+  const notepad =
+    document.getElementById(
+      "notepad"
+    );
+
+  if (!notepad) return;
+
+
+  notepad.value =
+    localStorage.getItem(
+      "pcNotas"
+    ) || "";
+
+
+  notepad.addEventListener(
+    "input",
+    function () {
+
+      localStorage.setItem(
+        "pcNotas",
+        this.value
+      );
+
+    }
+  );
+
+}
+
+
+loadNotes();
+
+
+/* =========================
+   PAPEL DE PAREDE
+========================= */
+
+function changeWallpaper(type) {
+
+  const desktop =
+    document.querySelector(
+      ".desktop"
+    );
+
+  if (!desktop) return;
+
+
+  if (type === 1) {
+
+    desktop.style.background = `
+      linear-gradient(
+        135deg,
+        #07111f,
+        #164b78,
+        #07111f
+      )
+    `;
+
+  }
+
+
+  if (type === 2) {
+
+    desktop.style.background = `
+      linear-gradient(
+        135deg,
+        #160b2c,
+        #55207b,
+        #0d1025
+      )
+    `;
+
+  }
+
+
+  if (type === 3) {
+
+    desktop.style.background = `
+      linear-gradient(
+        135deg,
+        #050505,
+        #111111,
+        #030303
+      )
+    `;
+
+  }
+
+
+  localStorage.setItem(
+    "wallpaper",
+    String(type)
+  );
+
+
+  showToast(
+    "Papel de parede alterado!"
+  );
+
+}
+
+
+function loadWallpaper() {
+
+  const saved =
+    Number(
+      localStorage.getItem(
+        "wallpaper"
+      )
+    );
+
+
+  if (saved >= 1 && saved <= 3) {
+
+    changeWallpaper(
+      saved
+    );
+
+  }
+
+}
+
+
+loadWallpaper();
+
+
+/* =========================
+   LIMPAR DADOS
+========================= */
+
+function clearData() {
+
+  const confirmDelete =
+    confirm(
+      "Isso vai apagar seus Xodós, notas e configurações. Continuar?"
+    );
+
+
+  if (!confirmDelete) return;
+
+
+  localStorage.removeItem(
+    "meusXodos"
+  );
+
+  localStorage.removeItem(
+    "pcNotas"
+  );
+
+  localStorage.removeItem(
+    "wallpaper"
+  );
+
+
+  showToast(
+    "Dados apagados!"
+  );
+
+
+  setTimeout(
+    function () {
+
+      location.reload();
+
+    },
+    700
+  );
+
+}
+
+
+/* =========================
+   NOTIFICAÇÕES
+========================= */
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+  if (!toast) return;
+
+
+  toast.textContent =
+    message;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    window.toastTimer
+  );
+
+
+  window.toastTimer =
+    setTimeout(
+      function () {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      2200
+    );
+
+}
+
+
+/* =========================
+   PROTEÇÃO DE HTML
+========================= */
+
+function escapeHtml(text) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   JANELAS ARRASTÁVEIS
+========================= */
+
+function makeWindowsDraggable() {
+
+  const windows =
+    document.querySelectorAll(
+      ".window"
+    );
+
+
+  windows.forEach(function (win) {
+
+    const header =
+      win.querySelector(
+        ".window-header"
+      );
+
+    if (!header) return;
+
+
+    let dragging = false;
+
+    let offsetX = 0;
+
+    let offsetY = 0;
+
+
+    header.addEventListener(
+      "mousedown",
+      function (event) {
+
+        /*
+           Não arrastar quando
+           clicar no botão fechar.
+        */
+
+        if (
+          event.target.closest(
+            "button"
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        dragging = true;
+
+
+        highestZ++;
+
+        win.style.zIndex =
+          highestZ;
+
+
+        offsetX =
+          event.clientX -
+          win.offsetLeft;
+
+
+        offsetY =
+          event.clientY -
+          win.offsetTop;
+
+
+        document.body.style.userSelect =
+          "none";
+
+      }
+    );
+
+
+    document.addEventListener(
+      "mousemove",
+      function (event) {
+
+        if (!dragging) return;
+
+
+        let x =
+          event.clientX -
+          offsetX;
+
+
+        let y =
+          event.clientY -
+          offsetY;
+
+
+        /*
+           Não deixa a janela
+           sair completamente
+           da tela.
+        */
+
+        x = Math.max(
+          0,
+          Math.min(
+            window.innerWidth -
+            win.offsetWidth,
+            x
+          )
+        );
+
+
+        y = Math.max(
+          0,
+          Math.min(
+            window.innerHeight -
+            100,
+            y
+          )
+        );
+
+
+        win.style.left =
+          x + "px";
+
+
+        win.style.top =
+          y + "px";
+
+      }
+    );
+
+
+    document.addEventListener(
+      "mouseup",
+      function () {
+
+        dragging = false;
+
+        document.body.style.userSelect =
+          "";
+
+      }
+    );
+
+  });
+
+}
+
+
+makeWindowsDraggable();
+
+
+/* =========================
+   TECLADO
+========================= */
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    /*
+       ESC fecha o menu Iniciar.
+    */
+
+    if (event.key === "Escape") {
+
+      const menu =
+        document.getElementById(
+          "startMenu"
+        );
+
+      if (menu) {
+
+        menu.classList.remove(
+          "show"
+        );
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    loadXodos();
+
+    updateClock();
+
+    updateIndicator();
+
+  }
+);
