@@ -1,222 +1,734 @@
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  user-select: none;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  background: radial-gradient(circle at center, #0a2e66 0%, #041430 60%, #020814 100%);
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
   overflow: hidden;
-  color: #ffffff;
+  background: #07111f;
+  color: white;
 }
 
-/* NOTIFICAÇÃO POPUP PS4 */
-.trophy-popup {
-  position: fixed;
-  top: 25px;
-  left: 25px;
-  background: rgba(4, 20, 48, 0.95);
-  border: 2px solid #ffbd00;
-  border-radius: 12px;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  z-index: 2000;
-  box-shadow: 0 0 25px rgba(255, 189, 0, 0.6);
-  animation: slideIn 0.4s ease-out;
+/* ================= DESKTOP ================= */
+
+.desktop {
+  position: absolute;
+  inset: 0 0 48px 0;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      #28547d,
+      transparent 40%
+    ),
+    linear-gradient(
+      135deg,
+      #07111f,
+      #102b47,
+      #06101c
+    );
 }
 
-@keyframes slideIn {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
+/* ================= ÍCONES ================= */
 
-.popup-icon {
-  font-size: 2rem;
-  color: #ffbd00;
-}
+.desktop-icons {
+  position: absolute;
+  top: 20px;
+  left: 15px;
 
-.popup-tag {
-  font-size: 0.7rem;
-  color: #38ef7d;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.popup-info h4 { font-size: 0.95rem; margin-top: 2px; }
-.popup-info p { font-size: 0.75rem; color: #a0c0f0; }
-
-/* DASHBOARD */
-.ps4-screen {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
-  padding: 25px 45px;
+  gap: 10px;
 }
 
-.system-bar {
+.icon {
+  width: 95px;
+  min-height: 90px;
+
+  padding: 8px;
+
+  text-align: center;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition: .15s;
+}
+
+.icon:hover {
+  background: rgba(255,255,255,.12);
+}
+
+.icon i {
+  display: block;
+
+  font-size: 38px;
+
+  margin-bottom: 7px;
+}
+
+.icon span {
+  font-size: 12px;
+
+  text-shadow:
+    0 2px 4px #000;
+}
+
+/* CORES DOS ÍCONES */
+
+.chrome-color {
+  color: #42a5f5;
+}
+
+.youtube-color {
+  color: #ff3030;
+}
+
+.xodo-color {
+  color: #ff5790;
+}
+
+.notes-color {
+  color: #ffd54f;
+}
+
+.folder-color {
+  color: #ffc107;
+}
+
+.settings-color {
+  color: #a9c4ff;
+}
+
+.store-color {
+  color: #61d9ff;
+}
+
+/* ================= JANELAS ================= */
+
+.window {
+  position: absolute;
+
+  top: 8%;
+  left: 20%;
+
+  width: 65%;
+  height: 72%;
+
+  min-width: 320px;
+  min-height: 250px;
+
+  background: #0d1827;
+
+  border: 1px solid #38536f;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.6),
+    0 0 0 1px rgba(255,255,255,.03);
+
+  z-index: 10;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ================= CABEÇALHO ================= */
+
+.window-header {
+  height: 44px;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  color: #8daedc;
+  justify-content: space-between;
+
+  padding: 0 10px 0 15px;
+
+  background:
+    linear-gradient(
+      #192d45,
+      #0c1725
+    );
+
+  border-bottom: 1px solid #30475f;
+
+  cursor: move;
 }
 
-.sys-icons { display: flex; gap: 25px; }
-.sys-item {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  cursor: pointer; transition: color 0.2s, transform 0.2s;
-}
-.sys-item span { font-size: 0.65rem; text-transform: uppercase; }
-.sys-item:hover { color: #fff; transform: translateY(-2px); }
+.win-title {
+  display: flex;
+  align-items: center;
 
-.sys-profile {
-  display: flex; align-items: center; gap: 12px; cursor: pointer;
-  background: rgba(255, 255, 255, 0.08); padding: 6px 14px; border-radius: 20px;
+  gap: 9px;
+
+  font-size: 14px;
+  font-weight: bold;
 }
 
-.user-avatar {
-  width: 30px; height: 30px; border-radius: 50%; background: #0070d1;
-  display: flex; align-items: center; justify-content: center; border: 1.5px solid #fff;
-}
-.user-name { font-size: 0.85rem; font-weight: 600; }
-
-/* CARROSSEL */
-.main-carousel { position: relative; width: 100%; padding: 20px 0; }
-.carousel-track { display: flex; gap: 20px; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
-
-.ps4-tile {
-  min-width: 110px; width: 110px; height: 110px;
-  background: rgba(255, 255, 255, 0.07); border-radius: 12px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 2px solid transparent; position: relative;
+.win-controls {
+  display: flex;
+  gap: 5px;
 }
 
-.tile-art {
-  font-size: 2.5rem; width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center; border-radius: 10px;
+.win-controls button {
+  width: 34px;
+  height: 28px;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: #26394f;
+  color: white;
+
+  cursor: pointer;
+
+  transition: .15s;
 }
 
-.tile-label {
-  position: absolute; bottom: -28px; font-size: 0.8rem; font-weight: 600;
-  white-space: nowrap; opacity: 0; transition: opacity 0.2s;
+.win-controls button:hover {
+  background: #df4059;
 }
 
-.store-bg { color: #ffbd00; }
-.friends-bg { color: #00d2ff; }
-.party-bg { color: #ff007f; }
-.sky-bg { color: #38ef7d; }
-.clicker-bg { color: #ff007f; }
-.runner-bg { color: #00d2ff; }
-.trophy-bg { color: #ffbd00; }
+/* ================= CONTEÚDO DAS JANELAS ================= */
 
-.ps4-tile.active {
-  transform: scale(1.22); border-color: #ffffff;
-  background: rgba(255, 255, 255, 0.2); box-shadow: 0 0 20px rgba(0, 112, 209, 0.8); z-index: 10;
-}
-.ps4-tile.active .tile-label { opacity: 1; }
+.window-body {
+  height: calc(100% - 44px);
 
-.game-details { height: 80px; }
-.game-details h1 { font-size: 1.8rem; }
-.game-details p { color: #8daedc; font-size: 0.9rem; }
+  background: #091421;
 
-.controls-bar { display: flex; gap: 25px; font-size: 0.85rem; color: #a0c0f0; }
-.btn-prompt { display: flex; align-items: center; gap: 8px; }
-.btn-x { background: #0070d1; color: #fff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem; }
-.btn-o { border: 2px solid #ff4757; color: #ff4757; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem; }
-.btn-dpad { background: rgba(255, 255, 255, 0.15); padding: 2px 6px; border-radius: 4px; }
-
-/* PLAYER DO JOGO */
-.game-player-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 999; }
-#gameIframe { width: 100vw; height: 100vh; border: none; }
-
-.floating-pause-btn {
-  position: absolute; top: 15px; right: 20px; z-index: 1001;
-  background: rgba(4, 20, 48, 0.85); color: #fff; border: 2px solid rgba(0, 112, 209, 0.8);
-  padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer;
+  overflow: auto;
 }
 
-.pause-menu-overlay {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(2, 8, 20, 0.88); z-index: 1002; display: flex; justify-content: center; align-items: center;
+/* ================= CHROME ================= */
+
+.browser-bar {
+  height: 52px;
+
+  display: flex;
+
+  gap: 8px;
+
+  padding: 8px;
+
+  background: #142237;
 }
-.pause-card { background: rgba(7, 30, 66, 0.95); padding: 30px; border-radius: 16px; width: 300px; text-align: center; }
-.pause-options { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-.pause-btn { background: rgba(255,255,255,0.1); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-.pause-btn.primary { background: #0070d1; }
-.pause-btn.danger { background: #ff4757; }
 
-/* MODAIS GERAIS */
-.modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: rgba(2, 8, 20, 0.85); backdrop-filter: blur(8px); z-index: 500;
-  display: flex; justify-content: center; align-items: center;
+.browser-bar input {
+  flex: 1;
+
+  border: 1px solid #38516c;
+
+  border-radius: 8px;
+
+  padding: 0 12px;
+
+  background: #08121f;
+
+  color: white;
+
+  outline: none;
 }
-.modal-card { width: 80%; max-width: 700px; max-height: 80vh; background: #071e42; border-radius: 16px; padding: 25px; overflow-y: auto; }
-.modal-card.large { max-width: 900px; height: 75vh; }
-.modal-card.small { max-width: 400px; }
 
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-.close-btn { background: transparent; border: none; color: #ff4757; font-size: 1.2rem; font-weight: bold; cursor: pointer; }
-.hidden { display: none !important; }
+.browser-bar input:focus {
+  border-color: #2587ff;
 
-/* CHAT & AMIGOS */
-.friends-layout { display: flex; gap: 15px; height: calc(100% - 50px); }
-.friends-sidebar { width: 30%; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 10px; display: flex; flex-direction: column; gap: 10px; }
+  box-shadow:
+    0 0 0 2px rgba(37,135,255,.15);
+}
 
-.add-friend-box { display: flex; gap: 5px; }
-.add-friend-box input { flex: 1; padding: 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; }
-.add-friend-box button { background: #0070d1; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.browser-bar button {
+  border: 0;
 
-.friends-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
-.friend-item { display: flex; align-items: center; gap: 10px; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer; }
-.friend-item.active { background: #0070d1; }
-.friend-status { width: 8px; height: 8px; border-radius: 50%; background: #888; }
-.friend-status.online { background: #38ef7d; }
+  border-radius: 8px;
 
-.chat-area { flex: 1; display: flex; flex-direction: column; justify-content: space-between; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 15px; }
-.chat-header { font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
-.chat-messages { flex: 1; overflow-y: auto; padding: 10px 0; display: flex; flex-direction: column; gap: 8px; }
+  padding: 0 16px;
 
-.msg-bubble { max-width: 70%; padding: 8px 12px; border-radius: 12px; font-size: 0.9rem; }
-.msg-bubble.sent { background: #0070d1; align-self: flex-end; }
-.msg-bubble.received { background: rgba(255,255,255,0.1); align-self: flex-start; }
-.system-msg { text-align: center; color: #8daedc; font-size: 0.8rem; }
+  background: #2587ff;
 
-.chat-input-box { display: flex; gap: 8px; }
-.chat-input-box input { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; }
-.chat-input-box button { background: #0070d1; color: #fff; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; }
+  color: white;
 
-/* CALL / PARTY */
-.party-container { display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; }
-.status-badge.live { color: #38ef7d; font-weight: bold; }
-.party-members { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-.party-member-card { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.party-avatar { width: 60px; height: 60px; border-radius: 50%; background: #0070d1; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 3px solid transparent; }
-.party-avatar.speaking { border-color: #38ef7d; box-shadow: 0 0 15px #38ef7d; }
-.party-btn { background: #ff007f; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+  cursor: pointer;
 
-/* TROFÉUS & PERFIL */
-.trophy-item { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; margin-bottom: 10px; }
-.trophy-icon { font-size: 1.8rem; }
-.trophy-icon.bronze { color: #cd7f32; }
-.trophy-icon.silver { color: #c0c0c0; }
-.trophy-icon.gold { color: #ffd700; }
+  font-weight: bold;
 
-.login-form { display: flex; flex-direction: column; gap: 15px; }
-.login-form input { padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; }
-.avatar-select { display: flex; gap: 12px; }
-.avatar-option { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.avatar-option.active { background: #0070d1; }
-.submit-btn { background: #0070d1; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+  transition: .15s;
+}
 
-.store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-.store-card-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center; }
-.store-card-item button { background: #0070d1; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
-  
+.browser-bar button:hover {
+  background: #1474e4;
+}
+
+#chrome-iframe {
+  width: 100%;
+  height: calc(100% - 52px);
+
+  border: 0;
+
+  background: white;
+}
+
+/* ================= XODÓS ================= */
+
+.xodo-body {
+  padding: 20px;
+}
+
+.xodo-form {
+  padding: 18px;
+
+  border-radius: 12px;
+
+  background: #13243a;
+
+  border: 1px solid #304963;
+}
+
+.xodo-form h3 {
+  margin-bottom: 15px;
+}
+
+.xodo-form input {
+  width: 100%;
+  height: 42px;
+
+  margin-bottom: 10px;
+
+  padding: 0 12px;
+
+  border: 1px solid #38516b;
+
+  border-radius: 8px;
+
+  background: #08121f;
+
+  color: white;
+
+  outline: none;
+}
+
+.xodo-form input:focus {
+  border-color: #ff4f91;
+
+  box-shadow:
+    0 0 0 2px rgba(255,79,145,.15);
+}
+
+.xodo-form button {
+  width: 100%;
+  height: 42px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #ff4f91;
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: .15s;
+}
+
+.xodo-form button:hover {
+  background: #e83d7d;
+}
+
+.xodo-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(180px,1fr)
+    );
+
+  gap: 12px;
+
+  margin-top: 15px;
+}
+
+.xodo-card {
+  padding: 18px;
+
+  border-radius: 12px;
+
+  background: #13243a;
+
+  border: 1px solid #2e4966;
+
+  transition: .15s;
+}
+
+.xodo-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #527698;
+}
+
+.xodo-card .emoji {
+  font-size: 38px;
+}
+
+.xodo-card h4 {
+  margin: 8px 0;
+}
+
+.xodo-card p {
+  color: #9eb1c7;
+
+  font-size: 13px;
+
+  word-break: break-word;
+}
+
+.xodo-card button {
+  margin-top: 12px;
+
+  padding: 7px 10px;
+
+  border: 0;
+
+  border-radius: 6px;
+
+  background: #e8465d;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+/* ================= NOTAS ================= */
+
+#notepad {
+  width: 100%;
+  height: 100%;
+
+  resize: none;
+
+  border: 0;
+
+  outline: 0;
+
+  padding: 20px;
+
+  background: #0e1928;
+
+  color: white;
+
+  font-size: 16px;
+
+  line-height: 1.6;
+}
+
+#notepad::placeholder {
+  color: #71869e;
+}
+
+/* ================= ARQUIVOS ================= */
+
+.files {
+  padding: 25px;
+}
+
+.folder {
+  display: inline-flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 120px;
+  height: 120px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: .15s;
+}
+
+.folder:hover {
+  background: #19324e;
+
+  transform: translateY(-2px);
+}
+
+.folder i {
+  font-size: 45px;
+
+  color: #ffc107;
+
+  margin-bottom: 8px;
+}
+
+/* ================= CONFIGURAÇÕES ================= */
+
+.settings {
+  padding: 25px;
+}
+
+.setting {
+  padding: 18px;
+
+  margin-bottom: 12px;
+
+  border-radius: 12px;
+
+  background: #13243a;
+
+  border: 1px solid #2e4966;
+}
+
+.setting h3 {
+  margin-bottom: 5px;
+}
+
+.setting button {
+  margin-top: 10px;
+
+  padding: 9px 14px;
+
+  border: 0;
+
+  border-radius: 7px;
+
+  background: #2587ff;
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: .15s;
+}
+
+.setting button:hover {
+  background: #1474e4;
+}
+
+/* ================= MENU INICIAR ================= */
+
+.start-menu {
+  position: absolute;
+
+  left: 10px;
+  bottom: 58px;
+
+  width: 330px;
+  min-height: 380px;
+
+  padding: 15px;
+
+  display: none;
+
+  z-index: 1000;
+
+  border: 1px solid #38546f;
+
+  border-radius: 14px;
+
+  background:
+    rgba(10,22,36,.98);
+
+  box-shadow:
+    0 15px 50px rgba(0,0,0,.6);
+}
+
+.start-menu.show {
+  display: block;
+}
+
+.start-user {
+  padding: 12px;
+
+  margin-bottom: 8px;
+
+  border-bottom:
+    1px solid #2a4159;
+
+  color: #dce9f7;
+}
+
+.start-user i {
+  margin-right: 8px;
+
+  color: #55a7ff;
+}
+
+.start-item {
+  padding: 13px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: .15s;
+}
+
+.start-item:hover {
+  background: #1c3652;
+}
+
+.start-item i {
+  width: 24px;
+
+  margin-right: 5px;
+}
+
+.start-bottom {
+  margin-top: 10px;
+
+  padding-top: 10px;
+
+  border-top:
+    1px solid #2a4159;
+}
+
+/* ================= BARRA DE TAREFAS ================= */
+
+.taskbar {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  background:
+    rgba(7,15,26,.97);
+
+  border-top:
+    1px solid #2c435b;
+
+  z-index: 2000;
+}
+
+.start-btn {
+  height: 100%;
+
+  padding: 0 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  transition: .15s;
+}
+
+.start-btn:hover {
+  background: #172d47;
+}
+
+.start-btn i {
+  color: #54a7ff;
+}
+
+.taskbar-apps {
+  flex: 1;
+
+  padding-left: 15px;
+}
+
+.active-app-indicator {
+  color: #9eb1c7;
+
+  font-size: 13px;
+}
+
+.system-tray {
+  padding: 0 18px;
+
+  color: #d6e2ef;
+}
+
+/* ================= NOTIFICAÇÃO ================= */
+
+.toast {
+  position: absolute;
+
+  right: 20px;
+  bottom: 65px;
+
+  padding: 13px 17px;
+
+  display: none;
+
+  border-radius: 9px;
+
+  background: #152a42;
+
+  border: 1px solid #395570;
+
+  box-shadow:
+    0 10px 30px #0008;
+
+  z-index: 3000;
+}
+
+.toast.show {
+  display: block;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media(max-width:700px) {
+
+  .window {
+    left: 3%;
+    top: 5%;
+
+    width: 94%;
+    height: 82%;
+  }
+
+  .desktop-icons {
+    display: grid;
+
+    grid-template-columns:
+      repeat(3,80px);
+
+    gap: 5px;
+  }
+
+  .icon {
+    width: 80px;
+  }
+
+  .icon i {
+    font-size: 32px;
+  }
+
+  .start-menu {
+    width: calc(100% - 20px);
+  }
+
+  .browser-bar button {
+    padding: 0 12px;
+  }
+
+}
