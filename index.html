@@ -1,120 +1,1320 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu PC Virtual</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu PC Virtual</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  color:white;
+  background:#07111f;
+}
+
+/* DESKTOP */
+
+.desktop{
+  position:absolute;
+  inset:0 0 48px 0;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 20%,#28547d,transparent 40%),
+    linear-gradient(135deg,#07111f,#102b47,#06101c);
+}
+
+/* ÍCONES */
+
+.desktop-icons{
+  position:absolute;
+  top:20px;
+  left:15px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.icon{
+  width:95px;
+  min-height:90px;
+  padding:8px;
+  text-align:center;
+  border-radius:10px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.icon:hover{
+  background:rgba(255,255,255,.12);
+}
+
+.icon i{
+  display:block;
+  font-size:38px;
+  margin-bottom:7px;
+}
+
+.icon span{
+  font-size:12px;
+  text-shadow:0 2px 4px #000;
+}
+
+.chrome-color{color:#42a5f5}
+.youtube-color{color:#ff3030}
+.xodo-color{color:#ff5790}
+.notes-color{color:#ffd54f}
+.folder-color{color:#ffc107}
+.settings-color{color:#a9c4ff}
+
+/* JANELAS */
+
+.window{
+  position:absolute;
+  top:8%;
+  left:20%;
+  width:65%;
+  height:72%;
+  min-width:320px;
+  min-height:250px;
+  background:#0d1827;
+  border:1px solid #38536f;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 25px 70px rgba(0,0,0,.6);
+  z-index:10;
+}
+
+.hidden{
+  display:none;
+}
+
+.window-header{
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px 0 15px;
+  background:linear-gradient(#192d45,#0c1725);
+  border-bottom:1px solid #30475f;
+  cursor:move;
+}
+
+.win-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.win-controls button{
+  width:34px;
+  height:28px;
+  border:0;
+  border-radius:6px;
+  background:#26394f;
+  color:white;
+  cursor:pointer;
+}
+
+.win-controls button:hover{
+  background:#df4059;
+}
+
+.window-body{
+  height:calc(100% - 44px);
+  background:#091421;
+  overflow:auto;
+}
+
+/* CHROME */
+
+.browser-bar{
+  height:52px;
+  display:flex;
+  gap:8px;
+  padding:8px;
+  background:#142237;
+}
+
+.browser-bar input{
+  flex:1;
+  border:1px solid #38516c;
+  border-radius:8px;
+  padding:0 12px;
+  background:#08121f;
+  color:white;
+  outline:none;
+}
+
+.browser-bar button{
+  border:0;
+  border-radius:8px;
+  padding:0 16px;
+  background:#2587ff;
+  color:white;
+  cursor:pointer;
+}
+
+#chrome-iframe{
+  width:100%;
+  height:calc(100% - 52px);
+  border:0;
+}
+
+/* XODÓS */
+
+.xodo-body{
+  padding:20px;
+}
+
+.xodo-form{
+  padding:18px;
+  border-radius:12px;
+  background:#13243a;
+  border:1px solid #304963;
+}
+
+.xodo-form h3{
+  margin-bottom:15px;
+}
+
+.xodo-form input{
+  width:100%;
+  height:42px;
+  margin-bottom:10px;
+  padding:0 12px;
+  border:1px solid #38516b;
+  border-radius:8px;
+  background:#08121f;
+  color:white;
+  outline:none;
+}
+
+.xodo-form button{
+  width:100%;
+  height:42px;
+  border:0;
+  border-radius:8px;
+  background:#ff4f91;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.xodo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:12px;
+  margin-top:15px;
+}
+
+.xodo-card{
+  padding:18px;
+  border-radius:12px;
+  background:#13243a;
+  border:1px solid #2e4966;
+}
+
+.xodo-card .emoji{
+  font-size:38px;
+}
+
+.xodo-card h4{
+  margin:8px 0;
+}
+
+.xodo-card p{
+  color:#9eb1c7;
+  font-size:13px;
+  word-break:break-word;
+}
+
+.xodo-card button{
+  margin-top:12px;
+  padding:7px 10px;
+  border:0;
+  border-radius:6px;
+  background:#e8465d;
+  color:white;
+  cursor:pointer;
+}
+
+/* NOTAS */
+
+#notepad{
+  width:100%;
+  height:100%;
+  resize:none;
+  border:0;
+  outline:0;
+  padding:20px;
+  background:#0e1928;
+  color:white;
+  font-size:16px;
+}
+
+/* ARQUIVOS */
+
+.files{
+  padding:25px;
+}
+
+.folder{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:120px;
+  height:120px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.folder:hover{
+  background:#19324e;
+}
+
+.folder i{
+  font-size:45px;
+  color:#ffc107;
+  margin-bottom:8px;
+}
+
+/* CONFIGURAÇÕES */
+
+.settings{
+  padding:25px;
+}
+
+.setting{
+  padding:18px;
+  margin-bottom:12px;
+  border-radius:12px;
+  background:#13243a;
+}
+
+.setting button{
+  margin-top:10px;
+  padding:9px 14px;
+  border:0;
+  border-radius:7px;
+  background:#2587ff;
+  color:white;
+  cursor:pointer;
+}
+
+/* MENU INICIAR */
+
+.start-menu{
+  position:absolute;
+  left:10px;
+  bottom:58px;
+  width:330px;
+  min-height:380px;
+  padding:15px;
+  display:none;
+  z-index:1000;
+  border:1px solid #38546f;
+  border-radius:14px;
+  background:rgba(10,22,36,.98);
+  box-shadow:0 15px 50px rgba(0,0,0,.6);
+}
+
+.start-menu.show{
+  display:block;
+}
+
+.start-user{
+  padding:12px;
+  margin-bottom:8px;
+  border-bottom:1px solid #2a4159;
+}
+
+.start-item{
+  padding:13px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.start-item:hover{
+  background:#1c3652;
+}
+
+.start-bottom{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid #2a4159;
+}
+
+/* BARRA */
+
+.taskbar{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:48px;
+  display:flex;
+  align-items:center;
+  background:rgba(7,15,26,.97);
+  border-top:1px solid #2c435b;
+  z-index:2000;
+}
+
+.start-btn{
+  height:100%;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.start-btn:hover{
+  background:#172d47;
+}
+
+.taskbar-apps{
+  flex:1;
+  padding-left:15px;
+}
+
+.active-app-indicator{
+  color:#9eb1c7;
+  font-size:13px;
+}
+
+.system-tray{
+  padding:0 18px;
+}
+
+/* TOAST */
+
+.toast{
+  position:absolute;
+  right:20px;
+  bottom:65px;
+  padding:13px 17px;
+  display:none;
+  border-radius:9px;
+  background:#152a42;
+  border:1px solid #395570;
+  box-shadow:0 10px 30px #0008;
+  z-index:3000;
+}
+
+.toast.show{
+  display:block;
+}
+
+/* CELULAR */
+
+@media(max-width:700px){
+
+  .window{
+    left:3%;
+    top:5%;
+    width:94%;
+    height:82%;
+  }
+
+  .desktop-icons{
+    display:grid;
+    grid-template-columns:repeat(3,80px);
+    gap:5px;
+  }
+
+  .icon{
+    width:80px;
+  }
+
+  .start-menu{
+    width:calc(100% - 20px);
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <!-- ÁREA DE TRABALHO -->
-  <div class="desktop">
-    
-    <!-- ÍCONES DA ÁREA DE TRABALHO -->
-    <div class="desktop-icons">
-      <div class="icon" onclick="openWindow('win-chrome')">
-        <i class="fa-brands fa-chrome chrome-color"></i>
-        <span>Google Chrome</span>
-      </div>
+<div class="desktop">
 
-      <div class="icon" onclick="openWindow('win-youtube')">
-        <i class="fa-brands fa-youtube youtube-color"></i>
-        <span>YouTube</span>
-      </div>
+<!-- ÍCONES -->
 
-      <div class="icon" onclick="openWindow('win-xodos')">
-        <i class="fa-solid fa-heart xodo-color"></i>
-        <span>Meus Xodós</span>
-      </div>
+<div class="desktop-icons">
 
-      <div class="icon" onclick="openWindow('win-notes')">
-        <i class="fa-solid fa-file-lines notes-color"></i>
-        <span>Bloco de Notas</span>
-      </div>
-    </div>
+<div class="icon" onclick="openWindow('win-chrome')">
+<i class="fa-brands fa-chrome chrome-color"></i>
+<span>Google Chrome</span>
+</div>
 
-    <!-- JANELA: CHROME -->
-    <div class="window hidden" id="win-chrome">
-      <div class="window-header">
-        <div class="win-title"><i class="fa-brands fa-chrome"></i> Google Chrome</div>
-        <div class="win-controls">
-          <button onclick="closeWindow('win-chrome')">✕</button>
-        </div>
-      </div>
-      <div class="browser-bar">
-        <input type="text" id="chrome-url" value="https://www.bing.com" placeholder="Digite uma URL ou pesquisa...">
-        <button onclick="navigateChrome()"><i class="fa-solid fa-arrow-right"></i> Ir</button>
-      </div>
-      <div class="window-body">
-        <iframe id="chrome-iframe" src="https://www.bing.com"></iframe>
-      </div>
-    </div>
+<div class="icon" onclick="openWindow('win-youtube')">
+<i class="fa-brands fa-youtube youtube-color"></i>
+<span>YouTube</span>
+</div>
 
-    <!-- JANELA: YOUTUBE -->
-    <div class="window hidden" id="win-youtube">
-      <div class="window-header">
-        <div class="win-title"><i class="fa-brands fa-youtube"></i> YouTube Virtual</div>
-        <div class="win-controls">
-          <button onclick="closeWindow('win-youtube')">✕</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <iframe src="https://www.youtube.com/embed/jfKfPfyJRdk" frameborder="0" allowfullscreen></iframe>
-      </div>
-    </div>
+<div class="icon" onclick="openWindow('win-xodos')">
+<i class="fa-solid fa-heart xodo-color"></i>
+<span>Meus Xodós</span>
+</div>
 
-    <!-- JANELA: SISTEMA DE XODÓS -->
-    <div class="window hidden" id="win-xodos">
-      <div class="window-header">
-        <div class="win-title"><i class="fa-solid fa-heart"></i> Meus Xodós (Salvos)</div>
-        <div class="win-controls">
-          <button onclick="closeWindow('win-xodos')">✕</button>
-        </div>
-      </div>
-      <div class="window-body xodo-body">
-        <div class="xodo-form">
-          <h3><i class="fa-solid fa-plus"></i> Adicionar Novo Xodó</h3>
-          <input type="text" id="xodo-title" placeholder="Nome do Xodó (Ex: Meu Site, Jogo Favorito)">
-          <input type="text" id="xodo-emoji" placeholder="Emoji (Ex: ⭐, 🎮, 🐱)" maxlength="2">
-          <input type="text" id="xodo-link" placeholder="Link ou Anotação">
-          <button onclick="addXodo()"><i class="fa-solid fa-floppy-disk"></i> Salvar Xodó</button>
-        </div>
-        <hr>
-        <h3><i class="fa-solid fa-star"></i> Meus Itens Salvos</h3>
-        <div class="xodo-grid" id="xodoContainer">
-          <!-- Os Xodós serão carregados aqui -->
-        </div>
-      </div>
-    </div>
+<div class="icon" onclick="openWindow('win-notes')">
+<i class="fa-solid fa-file-lines notes-color"></i>
+<span>Bloco de Notas</span>
+</div>
 
-    <!-- JANELA: BLOCO DE NOTAS -->
-    <div class="window hidden" id="win-notes">
-      <div class="window-header">
-        <div class="win-title"><i class="fa-solid fa-file-lines"></i> Bloco de Notas</div>
-        <div class="win-controls">
-          <button onclick="closeWindow('win-notes')">✕</button>
-        </div>
-      </div>
-      <div class="window-body">
-        <textarea id="notepad" placeholder="Escreva suas anotações aqui... Elas serão salvas automaticamente!"></textarea>
-      </div>
-    </div>
+<div class="icon" onclick="openWindow('win-files')">
+<i class="fa-solid fa-folder folder-color"></i>
+<span>Arquivos</span>
+</div>
 
-  </div>
+<div class="icon" onclick="openWindow('win-settings')">
+<i class="fa-solid fa-gear settings-color"></i>
+<span>Configurações</span>
+</div>
 
-  <!-- BARRA DE TAREFAS -->
-  <footer class="taskbar">
-    <div class="start-btn"><i class="fa-brands fa-windows"></i> Iniciar</div>
-    <div class="taskbar-apps">
-      <span class="active-app-indicator" id="appIndicator">Nenhum app aberto</span>
-    </div>
-    <div class="system-tray">
-      <span id="clock">00:00</span>
-    </div>
-  </footer>
+</div>
 
-  <script src="app.js"></script>
+<!-- CHROME -->
+
+<div class="window hidden" id="win-chrome">
+
+<div class="window-header">
+
+<div class="win-title">
+<i class="fa-brands fa-chrome"></i>
+Google Chrome
+</div>
+
+<div class="win-controls">
+<button onclick="closeWindow('win-chrome')">✕</button>
+</div>
+
+</div>
+
+<div class="browser-bar">
+
+<input
+id="chrome-url"
+value="https://www.google.com"
+placeholder="Digite uma URL ou pesquisa..."
+>
+
+<button onclick="navigateChrome()">
+<i class="fa-solid fa-arrow-right"></i>
+Ir
+</button>
+
+</div>
+
+<div class="window-body">
+
+<iframe
+id="chrome-iframe"
+src="https://www.google.com">
+</iframe>
+
+</div>
+
+</div>
+
+<!-- YOUTUBE -->
+
+<div class="window hidden" id="win-youtube">
+
+<div class="window-header">
+
+<div class="win-title">
+<i class="fa-brands fa-youtube"></i>
+YouTube
+</div>
+
+<div class="win-controls">
+<button onclick="closeWindow('win-youtube')">✕</button>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<iframe
+src="https://www.youtube.com/embed/jfKfPfyJRdk"
+allowfullscreen>
+</iframe>
+
+</div>
+
+</div>
+
+<!-- XODÓS -->
+
+<div class="window hidden" id="win-xodos">
+
+<div class="window-header">
+
+<div class="win-title">
+<i class="fa-solid fa-heart"></i>
+Meus Xodós
+</div>
+
+<div class="win-controls">
+<button onclick="closeWindow('win-xodos')">✕</button>
+</div>
+
+</div>
+
+<div class="window-body xodo-body">
+
+<div class="xodo-form">
+
+<h3>
+<i class="fa-solid fa-plus"></i>
+Adicionar Xodó
+</h3>
+
+<input
+id="xodo-title"
+placeholder="Nome do Xodó"
+>
+
+<input
+id="xodo-emoji"
+placeholder="Emoji"
+maxlength="2"
+>
+
+<input
+id="xodo-link"
+placeholder="Link ou anotação"
+>
+
+<button onclick="addXodo()">
+<i class="fa-solid fa-floppy-disk"></i>
+Salvar Xodó
+</button>
+
+</div>
+
+<hr style="margin:20px 0;border-color:#29415d">
+
+<h3>
+<i class="fa-solid fa-star"></i>
+Meus Itens
+</h3>
+
+<div
+class="xodo-grid"
+id="xodoContainer">
+</div>
+
+</div>
+
+</div>
+
+<!-- NOTAS -->
+
+<div class="window hidden" id="win-notes">
+
+<div class="window-header">
+
+<div class="win-title">
+<i class="fa-solid fa-file-lines"></i>
+Bloco de Notas
+</div>
+
+<div class="win-controls">
+<button onclick="closeWindow('win-notes')">✕</button>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<textarea
+id="notepad"
+placeholder="Digite suas anotações..."
+></textarea>
+
+</div>
+
+</div>
+
+<!-- ARQUIVOS -->
+
+<div class="window hidden" id="win-files">
+
+<div class="window-header">
+
+<div class="win-title">
+<i class="fa-solid fa-folder"></i>
+Explorador de Arquivos
+</div>
+
+<div class="win-controls">
+<button onclick="closeWindow('win-files')">✕</button>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<div class="files">
+
+<div class="folder">
+<i class="fa-solid fa-folder"></i>
+<span>Documentos</span>
+</div>
+
+<div class="folder">
+<i class="fa-solid fa-folder"></i>
+<span>Jogos</span>
+</div>
+
+<div class="folder">
+<i class="fa-solid fa-folder"></i>
+<span>Downloads</span>
+</div>
+
+<div class="folder">
+<i class="fa-solid fa-folder"></i>
+<span>Imagens</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CONFIGURAÇÕES -->
+
+<div class="window hidden" id="win-settings">
+
+<div class="window-header">
+
+<div class="win-title">
+<i class="fa-solid fa-gear"></i>
+Configurações
+</div>
+
+<div class="win-controls">
+<button onclick="closeWindow('win-settings')">✕</button>
+</div>
+
+</div>
+
+<div class="window-body">
+
+<div class="settings">
+
+<div class="setting">
+
+<h3>
+<i class="fa-solid fa-palette"></i>
+Papel de parede
+</h3>
+
+<button onclick="changeWallpaper(1)">
+Azul
+</button>
+
+<button onclick="changeWallpaper(2)">
+Roxo
+</button>
+
+<button onclick="changeWallpaper(3)">
+Escuro
+</button>
+
+</div>
+
+<div class="setting">
+
+<h3>
+<i class="fa-solid fa-trash"></i>
+Dados
+</h3>
+
+<button onclick="clearData()">
+Limpar dados
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MENU INICIAR -->
+
+<div class="start-menu" id="startMenu">
+
+<div class="start-user">
+<i class="fa-solid fa-circle-user"></i>
+<strong>Meu PC Virtual</strong>
+</div>
+
+<div class="start-item"
+onclick="openWindow('win-chrome');toggleStart()">
+<i class="fa-brands fa-chrome"></i>
+Google Chrome
+</div>
+
+<div class="start-item"
+onclick="openWindow('win-youtube');toggleStart()">
+<i class="fa-brands fa-youtube"></i>
+YouTube
+</div>
+
+<div class="start-item"
+onclick="openWindow('win-xodos');toggleStart()">
+<i class="fa-solid fa-heart"></i>
+Meus Xodós
+</div>
+
+<div class="start-item"
+onclick="openWindow('win-notes');toggleStart()">
+<i class="fa-solid fa-file-lines"></i>
+Bloco de Notas
+</div>
+
+<div class="start-item"
+onclick="openWindow('win-files');toggleStart()">
+<i class="fa-solid fa-folder"></i>
+Arquivos
+</div>
+
+<div class="start-item"
+onclick="openWindow('win-settings');toggleStart()">
+<i class="fa-solid fa-gear"></i>
+Configurações
+</div>
+
+<div class="start-bottom">
+
+<div class="start-item"
+onclick="location.reload()">
+
+<i class="fa-solid fa-power-off"></i>
+Reiniciar PC
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+
+<!-- BARRA -->
+
+<footer class="taskbar">
+
+<div class="start-btn"
+onclick="toggleStart()">
+
+<i class="fa-brands fa-windows"></i>
+Iniciar
+
+</div>
+
+<div class="taskbar-apps">
+
+<span
+id="appIndicator"
+class="active-app-indicator">
+Nenhum app aberto
+</span>
+
+</div>
+
+<div class="system-tray">
+
+<span id="clock">
+00:00
+</span>
+
+</div>
+
+</footer>
+
+<script>
+
+/* JANELAS */
+
+let highestZ=20;
+
+function openWindow(id){
+
+const win=document.getElementById(id);
+
+if(!win)return;
+
+win.classList.remove("hidden");
+
+highestZ++;
+
+win.style.zIndex=highestZ;
+
+updateIndicator();
+
+}
+
+function closeWindow(id){
+
+const win=document.getElementById(id);
+
+if(!win)return;
+
+win.classList.add("hidden");
+
+updateIndicator();
+
+}
+
+/* INDICADOR */
+
+function updateIndicator(){
+
+const open=[...document.querySelectorAll(".window")]
+.filter(w=>!w.classList.contains("hidden"));
+
+const indicator=document.getElementById("appIndicator");
+
+if(open.length===0){
+
+indicator.textContent="Nenhum app aberto";
+
+}else{
+
+indicator.textContent=open
+.map(w=>w.querySelector(".win-title")?.innerText)
+.join(" • ");
+
+}
+
+}
+
+/* MENU */
+
+function toggleStart(){
+
+document
+.getElementById("startMenu")
+.classList.toggle("show");
+
+}
+
+/* RELÓGIO */
+
+function updateClock(){
+
+const now=new Date();
+
+const h=String(now.getHours()).padStart(2,"0");
+const m=String(now.getMinutes()).padStart(2,"0");
+
+document.getElementById("clock").textContent=`${h}:${m}`;
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* CHROME */
+
+function navigateChrome(){
+
+let url=document
+.getElementById("chrome-url")
+.value
+.trim();
+
+if(!url)return;
+
+if(
+!url.startsWith("http://") &&
+!url.startsWith("https://")
+){
+
+url=
+"https://www.google.com/search?q="+
+encodeURIComponent(url);
+
+}
+
+document.getElementById("chrome-iframe").src=url;
+
+}
+
+/* XODÓS */
+
+function getXodos(){
+
+return JSON.parse(
+localStorage.getItem("meusXodos")||"[]"
+);
+
+}
+
+function saveXodos(data){
+
+localStorage.setItem(
+"meusXodos",
+JSON.stringify(data)
+);
+
+}
+
+function addXodo(){
+
+const title=document
+.getElementById("xodo-title")
+.value.trim();
+
+const emoji=document
+.getElementById("xodo-emoji")
+.value.trim()||"⭐";
+
+const link=document
+.getElementById("xodo-link")
+.value.trim();
+
+if(!title){
+
+showToast("Digite um nome.");
+
+return;
+
+}
+
+const xodos=getXodos();
+
+xodos.push({
+title,
+emoji,
+link
+});
+
+saveXodos(xodos);
+
+document.getElementById("xodo-title").value="";
+document.getElementById("xodo-emoji").value="";
+document.getElementById("xodo-link").value="";
+
+loadXodos();
+
+showToast("Xodó salvo!");
+
+}
+
+function loadXodos(){
+
+const container=
+document.getElementById("xodoContainer");
+
+const xodos=getXodos();
+
+container.innerHTML="";
+
+if(xodos.length===0){
+
+container.innerHTML=
+'<p style="color:#8298ae">Nenhum Xodó salvo.</p>';
+
+return;
+
+}
+
+xodos.forEach((x,index)=>{
+
+const card=document.createElement("div");
+
+card.className="xodo-card";
+
+card.innerHTML=`
+
+<div class="emoji">
+${escapeHtml(x.emoji)}
+</div>
+
+<h4>
+${escapeHtml(x.title)}
+</h4>
+
+<p>
+${escapeHtml(x.link||"Sem anotação")}
+</p>
+
+<button onclick="deleteXodo(${index})">
+<i class="fa-solid fa-trash"></i>
+Excluir
+</button>
+
+`;
+
+if(
+x.link &&
+(
+x.link.startsWith("https://") ||
+x.link.startsWith("http://")
+)
+){
+
+card.onclick=function(e){
+
+if(e.target.closest("button"))return;
+
+window.open(x.link,"_blank");
+
+};
+
+}
+
+container.appendChild(card);
+
+});
+
+}
+
+function deleteXodo(index){
+
+const xodos=getXodos();
+
+xodos.splice(index,1);
+
+saveXodos(xodos);
+
+loadXodos();
+
+showToast("Xodó removido.");
+
+}
+
+/* NOTAS */
+
+const notepad=
+document.getElementById("notepad");
+
+notepad.value=
+localStorage.getItem("pcNotas")||"";
+
+notepad.addEventListener("input",function(){
+
+localStorage.setItem(
+"pcNotas",
+this.value
+);
+
+});
+
+/* PAPEL DE PAREDE */
+
+function changeWallpaper(type){
+
+const desktop=
+document.querySelector(".desktop");
+
+if(type===1){
+
+desktop.style.background=
+"linear-gradient(135deg,#07111f,#164b78,#07111f)";
+
+}
+
+if(type===2){
+
+desktop.style.background=
+"linear-gradient(135deg,#160b2c,#55207b,#0d1025)";
+
+}
+
+if(type===3){
+
+desktop.style.background=
+"linear-gradient(135deg,#050505,#111,#030303)";
+
+}
+
+localStorage.setItem(
+"wallpaper",
+type
+);
+
+showToast("Papel de parede alterado.");
+
+}
+
+function loadWallpaper(){
+
+const saved=
+Number(localStorage.getItem("wallpaper"));
+
+if(saved){
+
+changeWallpaper(saved);
+
+}
+
+}
+
+/* LIMPAR */
+
+function clearData(){
+
+if(confirm(
+"Apagar todas as notas, Xodós e configurações?"
+)){
+
+localStorage.clear();
+
+location.reload();
+
+}
+
+}
+
+/* TOAST */
+
+function showToast(message){
+
+const toast=
+document.getElementById("toast");
+
+toast.textContent=message;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+toast.classList.remove("show");
+},2200);
+
+}
+
+/* SEGURANÇA */
+
+function escapeHtml(text){
+
+return String(text)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+/* JANELAS ARRASTÁVEIS */
+
+document
+.querySelectorAll(".window")
+.forEach(win=>{
+
+const header=
+win.querySelector(".window-header");
+
+let dragging=false;
+let offsetX=0;
+let offsetY=0;
+
+header.addEventListener("mousedown",e=>{
+
+if(e.target.closest("button"))return;
+
+dragging=true;
+
+highestZ++;
+
+win.style.zIndex=highestZ;
+
+offsetX=
+e.clientX-win.offsetLeft;
+
+offsetY=
+e.clientY-win.offsetTop;
+
+});
+
+document.addEventListener("mousemove",e=>{
+
+if(!dragging)return;
+
+let x=e.clientX-offsetX;
+let y=e.clientY-offsetY;
+
+x=Math.max(
+0,
+Math.min(
+window.innerWidth-win.offsetWidth,
+x
+)
+);
+
+y=Math.max(
+0,
+Math.min(
+window.innerHeight-100,
+y
+)
+);
+
+win.style.left=x+"px";
+win.style.top=y+"px";
+
+});
+
+document.addEventListener("mouseup",()=>{
+dragging=false;
+});
+
+});
+
+/* FECHAR MENU CLICANDO FORA */
+
+document.addEventListener("click",e=>{
+
+const menu=document.getElementById("startMenu");
+const button=document.querySelector(".start-btn");
+
+if(
+menu.classList.contains("show") &&
+!menu.contains(e.target) &&
+!button.contains(e.target)
+){
+
+menu.classList.remove("show");
+
+}
+
+});
+
+/* INICIAR */
+
+loadXodos();
+loadWallpaper();
+
+</script>
+
 </body>
-</html>
+  </html>
