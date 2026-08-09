@@ -3,254 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlayStation 4 Web OS</title>
+  <title>Meu PC Virtual</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-  <!-- ================= POPUP DE NOTIFICAÇÃO DE TROFÉU PS4 ================= -->
-  <div class="trophy-popup hidden" id="trophyPopup">
-    <div class="popup-icon"><i class="fa-solid fa-trophy"></i></div>
-    <div class="popup-info">
-      <span class="popup-tag">Troféu Desbloqueado!</span>
-      <h4 id="popupTrophyTitle">Nome do Troféu</h4>
-      <p id="popupTrophyDesc">Descrição do troféu conquistado.</p>
-    </div>
-  </div>
-
-  <!-- ================= TELA DO DASHBOARD PS4 ================= -->
-  <div class="ps4-screen" id="ps4Dashboard">
+  <!-- ÁREA DE TRABALHO -->
+  <div class="desktop">
     
-    <!-- Barra Superior de Navegação -->
-    <header class="system-bar">
-      <div class="sys-icons">
-        <div class="sys-item" id="btn-store"><i class="fa-solid fa-bag-shopping"></i><span>Store</span></div>
-        <div class="sys-item" id="btn-friends"><i class="fa-solid fa-user-group"></i><span>Amigos</span></div>
-        <div class="sys-item" id="btn-party"><i class="fa-solid fa-headset"></i><span>Party / Call</span></div>
-        <div class="sys-item" id="btn-trophies"><i class="fa-solid fa-trophy"></i><span>Troféus</span></div>
+    <!-- ÍCONES DA ÁREA DE TRABALHO -->
+    <div class="desktop-icons">
+      <div class="icon" onclick="openWindow('win-chrome')">
+        <i class="fa-brands fa-chrome chrome-color"></i>
+        <span>Google Chrome</span>
       </div>
 
-      <div class="sys-profile" id="btn-login">
-        <span id="clock">00:00</span>
-        <div class="user-avatar" id="current-avatar"><i class="fa-solid fa-user"></i></div>
-        <span class="user-name" id="current-username">Criar Conta / Login</span>
+      <div class="icon" onclick="openWindow('win-youtube')">
+        <i class="fa-brands fa-youtube youtube-color"></i>
+        <span>YouTube</span>
       </div>
-    </header>
 
-    <!-- Carrossel de Jogos -->
-    <main class="main-carousel">
-      <div class="carousel-track" id="carouselTrack">
-        
-        <!-- STORE -->
-        <div class="ps4-tile active" data-type="modal" data-target="modal-store">
-          <div class="tile-art store-bg"><i class="fa-solid fa-bag-shopping"></i></div>
-          <div class="tile-label">PS Store</div>
-        </div>
-
-        <!-- AMIGOS -->
-        <div class="ps4-tile" data-type="modal" data-target="modal-friends">
-          <div class="tile-art friends-bg"><i class="fa-solid fa-user-group"></i></div>
-          <div class="tile-label">Amigos & Chat</div>
-        </div>
-
-        <!-- PARTY CALL -->
-        <div class="ps4-tile" data-type="modal" data-target="modal-party">
-          <div class="tile-art party-bg"><i class="fa-solid fa-headset"></i></div>
-          <div class="tile-label">Party Call</div>
-        </div>
-
-        <!-- JOGO 1: FLAPPY SKY -->
-        <div class="ps4-tile" data-type="game" data-title="Flappy Sky" data-url="./games/flappy-sky/index.html">
-          <div class="tile-art sky-bg"><i class="fa-solid fa-cloud-sun"></i></div>
-          <div class="tile-label">Flappy Sky</div>
-        </div>
-
-        <!-- JOGO 2: CLICK MASTER -->
-        <div class="ps4-tile" data-type="game" data-title="Click Master" data-url="./games/click-master/index.html">
-          <div class="tile-art clicker-bg"><i class="fa-solid fa-hand-pointer"></i></div>
-          <div class="tile-label">Click Master</div>
-        </div>
-
-        <!-- JOGO 3: NEON RUNNER -->
-        <div class="ps4-tile" data-type="game" data-title="Neon Runner" data-url="./games/neon-runner/index.html">
-          <div class="tile-art runner-bg"><i class="fa-solid fa-bolt"></i></div>
-          <div class="tile-label">Neon Runner</div>
-        </div>
-
-        <!-- TROFÉUS -->
-        <div class="ps4-tile" data-type="modal" data-target="modal-trophies">
-          <div class="tile-art trophy-bg"><i class="fa-solid fa-trophy"></i></div>
-          <div class="tile-label">Troféus</div>
-        </div>
-
+      <div class="icon" onclick="openWindow('win-xodos')">
+        <i class="fa-solid fa-heart xodo-color"></i>
+        <span>Meus Xodós</span>
       </div>
-    </main>
 
-    <!-- Detalhes do Item Selecionado -->
-    <div class="game-details">
-      <h1 id="selected-title">PS Store</h1>
-      <p id="selected-desc">Navegue pela loja para ver novos jogos e novidades.</p>
+      <div class="icon" onclick="openWindow('win-notes')">
+        <i class="fa-solid fa-file-lines notes-color"></i>
+        <span>Bloco de Notas</span>
+      </div>
     </div>
 
-    <!-- Barra de Ajuda -->
-    <footer class="controls-bar">
-      <div class="btn-prompt"><span class="btn-x">X</span> Entrar</div>
-      <div class="btn-prompt"><span class="btn-o">O</span> Voltar</div>
-      <div class="btn-prompt"><span class="btn-dpad">← →</span> Mover</div>
-    </footer>
-  </div>
+    <!-- JANELA: CHROME -->
+    <div class="window hidden" id="win-chrome">
+      <div class="window-header">
+        <div class="win-title"><i class="fa-brands fa-chrome"></i> Google Chrome</div>
+        <div class="win-controls">
+          <button onclick="closeWindow('win-chrome')">✕</button>
+        </div>
+      </div>
+      <div class="browser-bar">
+        <input type="text" id="chrome-url" value="https://www.bing.com" placeholder="Digite uma URL ou pesquisa...">
+        <button onclick="navigateChrome()"><i class="fa-solid fa-arrow-right"></i> Ir</button>
+      </div>
+      <div class="window-body">
+        <iframe id="chrome-iframe" src="https://www.bing.com"></iframe>
+      </div>
+    </div>
 
-  <!-- ================= TELA DO JOGO (IFRAME) ================= -->
-  <div class="game-player-overlay hidden" id="gamePlayer">
-    <button class="floating-pause-btn" id="btnPauseGame" onclick="togglePauseMenu()">
-      <i class="fa-solid fa-pause"></i> PAUSE
-    </button>
+    <!-- JANELA: YOUTUBE -->
+    <div class="window hidden" id="win-youtube">
+      <div class="window-header">
+        <div class="win-title"><i class="fa-brands fa-youtube"></i> YouTube Virtual</div>
+        <div class="win-controls">
+          <button onclick="closeWindow('win-youtube')">✕</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <iframe src="https://www.youtube.com/embed/jfKfPfyJRdk" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
 
-    <iframe id="gameIframe" src="" frameborder="0"></iframe>
-
-    <div class="pause-menu-overlay hidden" id="pauseMenu">
-      <div class="pause-card">
-        <h2 id="pause-game-title"><i class="fa-solid fa-circle-pause"></i> Jogo Pausado</h2>
-        <div class="pause-options">
-          <button class="pause-btn primary" onclick="togglePauseMenu()"><i class="fa-solid fa-play"></i> Continuar</button>
-          <button class="pause-btn" onclick="restartGame()"><i class="fa-solid fa-rotate-right"></i> Reiniciar</button>
-          <button class="pause-btn danger" onclick="exitToDashboard()"><i class="fa-solid fa-house"></i> Sair do Jogo</button>
+    <!-- JANELA: SISTEMA DE XODÓS -->
+    <div class="window hidden" id="win-xodos">
+      <div class="window-header">
+        <div class="win-title"><i class="fa-solid fa-heart"></i> Meus Xodós (Salvos)</div>
+        <div class="win-controls">
+          <button onclick="closeWindow('win-xodos')">✕</button>
+        </div>
+      </div>
+      <div class="window-body xodo-body">
+        <div class="xodo-form">
+          <h3><i class="fa-solid fa-plus"></i> Adicionar Novo Xodó</h3>
+          <input type="text" id="xodo-title" placeholder="Nome do Xodó (Ex: Meu Site, Jogo Favorito)">
+          <input type="text" id="xodo-emoji" placeholder="Emoji (Ex: ⭐, 🎮, 🐱)" maxlength="2">
+          <input type="text" id="xodo-link" placeholder="Link ou Anotação">
+          <button onclick="addXodo()"><i class="fa-solid fa-floppy-disk"></i> Salvar Xodó</button>
+        </div>
+        <hr>
+        <h3><i class="fa-solid fa-star"></i> Meus Itens Salvos</h3>
+        <div class="xodo-grid" id="xodoContainer">
+          <!-- Os Xodós serão carregados aqui -->
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ================= MODAL AMIGOS & CHAT ================= -->
-  <div class="modal-overlay hidden" id="modal-friends">
-    <div class="modal-card large">
-      <div class="modal-header">
-        <h2><i class="fa-solid fa-user-group" style="color:#00d2ff;"></i> PSN Amigos & Mensagens</h2>
-        <button class="close-btn" onclick="closeModal('modal-friends')">X</button>
+    <!-- JANELA: BLOCO DE NOTAS -->
+    <div class="window hidden" id="win-notes">
+      <div class="window-header">
+        <div class="win-title"><i class="fa-solid fa-file-lines"></i> Bloco de Notas</div>
+        <div class="win-controls">
+          <button onclick="closeWindow('win-notes')">✕</button>
+        </div>
       </div>
-      
-      <div class="friends-layout">
-        <!-- Esquerda: Lista de Amigos -->
-        <div class="friends-sidebar">
-          <div class="add-friend-box">
-            <input type="text" id="friendInput" placeholder="Adicionar ID PSN...">
-            <button onclick="addFriend()"><i class="fa-solid fa-user-plus"></i></button>
-          </div>
-          <div class="friends-list" id="friendsList">
-            <!-- Injetado via JS -->
-          </div>
-        </div>
-
-        <!-- Direita: Chat em Tempo Real -->
-        <div class="chat-area">
-          <div class="chat-header" id="chatHeader">
-            <span>Selecione um amigo para conversar</span>
-          </div>
-          <div class="chat-messages" id="chatMessages">
-            <div class="system-msg">Escolha um amigo da lista à esquerda para mandar mensagem.</div>
-          </div>
-          <div class="chat-input-box">
-            <input type="text" id="messageInput" placeholder="Digite uma mensagem..." disabled>
-            <button id="sendMessageBtn" onclick="sendMessage()" disabled><i class="fa-solid fa-paper-plane"></i></button>
-          </div>
-        </div>
+      <div class="window-body">
+        <textarea id="notepad" placeholder="Escreva suas anotações aqui... Elas serão salvas automaticamente!"></textarea>
       </div>
     </div>
+
   </div>
 
-  <!-- ================= MODAL CALL DE VOZ (PARTY) ================= -->
-  <div class="modal-overlay hidden" id="modal-party">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2><i class="fa-solid fa-headset" style="color:#ff007f;"></i> Grupo PSN (Party Call)</h2>
-        <button class="close-btn" onclick="closeModal('modal-party')">X</button>
-      </div>
-      
-      <div class="party-container">
-        <div class="party-status">
-          <span class="status-badge live">● EM CALL</span>
-          <p>Conectado ao Servidor de Voz PSN</p>
-        </div>
-
-        <div class="party-members" id="partyMembers">
-          <!-- Injetado via JS -->
-        </div>
-
-        <div class="party-controls">
-          <button class="party-btn mic-btn" id="toggleMicBtn" onclick="toggleMicrophone()">
-            <i class="fa-solid fa-microphone"></i> <span id="micStatusText">Ativar Microfone</span>
-          </button>
-        </div>
-      </div>
+  <!-- BARRA DE TAREFAS -->
+  <footer class="taskbar">
+    <div class="start-btn"><i class="fa-brands fa-windows"></i> Iniciar</div>
+    <div class="taskbar-apps">
+      <span class="active-app-indicator" id="appIndicator">Nenhum app aberto</span>
     </div>
-  </div>
-
-  <!-- ================= MODAL TROFÉUS ================= -->
-  <div class="modal-overlay hidden" id="modal-trophies">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2><i class="fa-solid fa-trophy" style="color:#ffbd00;"></i> Minhas Conquistas</h2>
-        <button class="close-btn" onclick="closeModal('modal-trophies')">X</button>
-      </div>
-      <div class="trophy-list" id="trophyContainer"></div>
+    <div class="system-tray">
+      <span id="clock">00:00</span>
     </div>
-  </div>
-
-  <!-- ================= MODAL LOGIN ================= -->
-  <div class="modal-overlay hidden" id="modal-login">
-    <div class="modal-card small">
-      <div class="modal-header">
-        <h2><i class="fa-solid fa-user-gear"></i> Perfil PSN</h2>
-        <button class="close-btn" onclick="closeModal('modal-login')">X</button>
-      </div>
-      <form class="login-form" id="loginForm">
-        <label>Nome / ID da PSN:</label>
-        <input type="text" id="usernameInput" placeholder="Ex: GamerPro99" required maxlength="15">
-        
-        <label>Escolha o Avatar:</label>
-        <div class="avatar-select">
-          <div class="avatar-option active" data-icon="fa-user"><i class="fa-solid fa-user"></i></div>
-          <div class="avatar-option" data-icon="fa-ghost"><i class="fa-solid fa-ghost"></i></div>
-          <div class="avatar-option" data-icon="fa-robot"><i class="fa-solid fa-robot"></i></div>
-          <div class="avatar-option" data-icon="fa-dragon"><i class="fa-solid fa-dragon"></i></div>
-        </div>
-
-        <button type="submit" class="submit-btn">Salvar Conta</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ================= MODAL STORE ================= -->
-  <div class="modal-overlay hidden" id="modal-store">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2><i class="fa-solid fa-bag-shopping" style="color:#0070d1;"></i> PlayStation Store</h2>
-        <button class="close-btn" onclick="closeModal('modal-store')">X</button>
-      </div>
-      <div class="store-grid">
-        <div class="store-card-item">
-          <i class="fa-solid fa-cloud-sun sky-bg"></i>
-          <h3>Flappy Sky</h3>
-          <span class="tag">Gratuito</span>
-          <button onclick="launchGame('Flappy Sky', './games/flappy-sky/index.html')">Jogar Agora</button>
-        </div>
-        <div class="store-card-item">
-          <i class="fa-solid fa-hand-pointer clicker-bg"></i>
-          <h3>Click Master</h3>
-          <span class="tag">Gratuito</span>
-          <button onclick="launchGame('Click Master', './games/click-master/index.html')">Jogar Agora</button>
-        </div>
-        <div class="store-card-item">
-          <i class="fa-solid fa-bolt runner-bg"></i>
-          <h3>Neon Runner</h3>
-          <span class="tag">Gratuito</span>
-          <button onclick="launchGame('Neon Runner', './games/neon-runner/index.html')">Jogar Agora</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  </footer>
 
   <script src="app.js"></script>
 </body>
-          </html>
-          
+</html>
